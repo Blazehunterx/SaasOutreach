@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Founderflow Control Center</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        body { background: #0f172a; color: white; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .btn-gradient { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-6xl mx-auto space-y-6">
+        <!-- Header -->
+        <div class="flex justify-between items-center bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+            <div>
+                <h1 class="text-3xl font-bold text-blue-400">Founderflow <span class="text-white font-light text-xl">/ Control Center</span></h1>
+                <p class="text-slate-400 text-sm mt-1">Autonomous Outreach Workspace v1.6 Gold Standard</p>
+            </div>
+            <div id="status-badge" class="px-4 py-2 rounded-full text-sm font-medium bg-red-500/10 text-red-400 border border-red-500/20">
+                🔴 Needs Login
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- 1. Account Card -->
+            <div class="glass p-6 rounded-3xl space-y-4">
+                <h2 class="text-xl font-semibold">1. Account</h2>
+                <button onclick="login()" class="w-full py-3 rounded-xl btn-gradient font-bold text-sm">Connect Instagram</button>
+                <button id="cap-btn" onclick="captureSession()" class="w-full py-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold hidden text-xs">Finalize Connection</button>
+            </div>
+
+            <!-- 2. Messaging Card -->
+            <div class="glass p-6 rounded-3xl space-y-4 col-span-1">
+                <h2 class="text-xl font-semibold">2. Message</h2>
+                <textarea id="msg-input" placeholder="Hi {{username}}..." class="w-full h-20 bg-slate-800/50 rounded-xl p-3 text-xs border border-slate-700"></textarea>
+                <button onclick="saveSettings()" class="w-full py-2 rounded-xl bg-slate-700 text-xs font-bold">Save Template</button>
+            </div>
+
+            <!-- 3. Manual Injection -->
+            <div class="glass p-6 rounded-3xl space-y-4 col-span-1">
+                <h2 class="text-xl font-semibold">3a. Manual URLs</h2>
+                <textarea id="url-input" placeholder="Paste IG URLs..." class="w-full h-20 bg-slate-800/50 rounded-xl p-3 text-xs border border-slate-700"></textarea>
+                <button onclick="injectManual()" class="w-full py-2 rounded-xl bg-slate-700 text-xs font-bold">Inject Manual</button>
+            </div>
+
+            <!-- 4. CSV Injection -->
+            <div class="glass p-6 rounded-3xl space-y-4 col-span-1">
+                <h2 class="text-xl font-semibold">3b. CSV Upload</h2>
+                <input type="file" id="csv-file" accept=".csv" class="hidden" onchange="handleCSV(event)">
+                <label for="csv-file" class="block w-full py-3 rounded-xl bg-slate-700 text-center font-bold cursor-pointer hover:bg-slate-600 text-sm">Upload CSV</label>
+                <p id="lead-count" class="text-xs text-slate-500 text-center">0 leads ready</p>
+            </div>
+        </div>
+
+        <!-- Monitoring Feed -->
+        <div class="glass p-6 rounded-3xl space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Live Outreach Feed</h2>
+                <div class="space-x-3">
+                    <button onclick="startEngine()" class="px-6 py-2 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-bold">Start Engine</button>
+                    <button onclick="stopEngine()" class="px-6 py-2 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-500/20 font-bold">Stop</button>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto min-h-[300px]">
+                <table class="w-full text-left text-sm text-slate-300">
+                    <thead class="text-slate-500 uppercase text-xs border-b border-slate-800">
+                        <tr>
+                            <th class="py-4 font-normal text-xs">Profile URL</th>
+                            <th class="py-4 font-normal text-xs">Status</th>
+                            <th class="py-4 font-normal text-xs">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="outreach-feed">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        let currentLeads = [];
+
+        async function fetchStatus() {
+            const res = await fetch('/api/status');
+            const data = await res.json();
+            const badge = document.getElementById('status-badge');
+            const capBtn = document.getElementById('cap-btn');
+            
+            badge.innerText = data.status === 'Connected' ? '🟢 Connected' : '🔴 Needs Login';
+            badge.className = data.status === 'Connected' ? 'px-4 py-2 rounded-full text-sm font-medium bg-emerald-400/10 text-emerald-400 border border-emerald-500/20' : 'px-4 py-2 rounded-full text-sm font-medium bg-red-400/10 text-red-500 border border-red-500/20';
+            
+            if (data.status === 'Needs Login') capBtn.classList.remove('hidden');
+            else capBtn.classList.add('hidden');
+            
+            const msgInput = document.getElementById('msg-input');
+            if (document.activeElement !== msgInput) {
+                msgInput.value = data.settings.message || "Hi {{username}}!";
+            }
+        }
+
+        async function login() { await fetch('/api/login', { method: 'POST' }); }
+        async function captureSession() { await fetch('/api/capture-session', { method: 'POST' }); }
+        
+        async function saveSettings() {
+            const message = document.getElementById('msg-input').value;
+            const res = await fetch('/api/save-settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+            if (res.ok) alert('✅ Template Saved Successfully!');
+            else alert('❌ Error saving template.');
+        }
+
+        function injectManual() {
+            const input = document.getElementById('url-input').value;
+            const newLeads = input.split('\n').filter(l => l.trim() !== '').map(url => ({ url: url.trim() }));
+            submitLeads(newLeads);
+        }
+
+        function handleCSV(e) {
+            Papa.parse(e.target.files[0], {
+                header: false,
+                complete: function(results) {
+                    const newLeads = results.data.flat().filter(url => url.includes('instagram.com/')).map(url => ({ url: url.trim() }));
+                    submitLeads(newLeads);
+                }
+            });
+        }
+
+        async function submitLeads(leadsList) {
+            await fetch('/api/inject-leads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ leads: leadsList })
+            });
+            document.getElementById('lead-count').innerText = `${leadsList.length} leads ready`;
+            alert(`Injected ${leadsList.length} leads!`);
+        }
+
+        function startEngine() { socket.emit('start_outreach'); }
+        function stopEngine() { socket.emit('stop_outreach'); }
+
+        socket.on('progress', (data) => {
+            const feed = document.getElementById('outreach-feed');
+            const row = document.createElement('tr');
+            row.className = "border-b border-slate-800/50";
+            row.innerHTML = `
+                <td class="py-4 text-xs">${data.url}</td>
+                <td class="py-4"><span class="px-2 py-1 rounded bg-blue-500/10 text-blue-400 text-xs">${data.status}</span></td>
+                <td class="py-4 text-[10px] text-slate-500">${new Date().toLocaleTimeString()}</td>
+            `;
+            feed.prepend(row);
+        });
+
+        socket.on('status_update', () => fetchStatus());
+        setInterval(fetchStatus, 5000);
+        fetchStatus();
+    </script>
+</body>
+</html>

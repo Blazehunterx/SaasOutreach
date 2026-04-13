@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Founderflow | Universal Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .btn-gradient { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); transition: all 0.3s ease; }
+        .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+        .log-line { font-family: 'Fira Code', monospace; font-size: 11px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+            <div>
+                <h1 class="text-3xl font-bold text-blue-400">Founderflow <span class="text-white font-light text-xl">/ Control Center</span></h1>
+                <p class="text-slate-400 text-sm mt-1">Universal Outreach Workspace v1.43 (The Proven Horizon)</p>
+            </div>
+            <div id="status-badge" class="px-4 py-2 rounded-full text-sm font-medium bg-red-400/10 text-red-500 border border-red-500/20">
+                🔴 Needs Login
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <!-- 1. Account Card (Classic) -->
+            <div class="glass p-6 rounded-3xl space-y-4">
+                <h2 class="text-xl font-semibold">1. Account Hub</h2>
+                <button id="login-hub-btn" onclick="login()" class="w-full py-4 rounded-xl btn-gradient font-bold shadow-lg shadow-blue-500/20 text-xs">Connect Instagram</button>
+                <button id="cap-btn" onclick="captureSession()" class="w-full py-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold hover:bg-emerald-500/20 transition-all text-[10px]">📸 Finalize & Seal Connection</button>
+            </div>
+
+            <!-- 2. Messaging Card -->
+            <div class="glass p-6 rounded-3xl space-y-4">
+                <h2 class="text-xl font-semibold">2. Campaign</h2>
+                <div>
+                    <label class="text-[10px] text-slate-500 uppercase font-black">Target Hub</label>
+                    <select id="platform-select" onchange="updatePlatformText(); saveSettings()" class="w-full mt-1 bg-slate-800 border border-slate-700 p-2 rounded-xl outline-none text-xs">
+                        <option value="ig">Instagram (Ghost)</option>
+                        <option value="linkedin">LinkedIn (B2B Stealth)</option>
+                        <option value="x">X / Twitter (Ghost)</option>
+                        <option value="meta">Meta Messenger (Stealth)</option>
+                        <option value="gmail">Gmail (Professional)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] text-slate-500 uppercase font-black">Message Template</label>
+                    <textarea id="msg-input" placeholder="Hi {{username}}..." class="w-full mt-1 h-20 bg-slate-800 border border-slate-700 p-2 rounded-xl outline-none text-xs resize-none"></textarea>
+                </div>
+                <div class="pt-2 border-t border-slate-800">
+                    <label class="text-[10px] text-slate-500 uppercase font-black">Titanium Payload (Attachment)</label>
+                    <div class="flex items-center gap-2 mt-1">
+                        <input type="file" id="payload-upload" class="hidden" onchange="uploadPayload()">
+                        <button onclick="document.getElementById('payload-upload').click()" class="flex-1 py-2 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-xl font-bold text-[10px] hover:bg-blue-500/20 transition-all">
+                            <i class="fas fa-paperclip mr-1"></i> Attach Pitch / PDF
+                        </button>
+                    </div>
+                    <div id="payload-status" class="text-[9px] text-slate-500 mt-1 truncate">No payload armed.</div>
+                </div>
+            </div>
+
+            <!-- 3. Ghost Humanizer (v1.13) -->
+            <div class="glass p-6 rounded-3xl space-y-4">
+                <h2 class="text-xl font-semibold text-blue-400">3. Humanizer</h2>
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between">
+                            <label class="text-[10px] text-slate-500 uppercase font-black">Batch Size</label>
+                            <span id="batch-val" class="text-[10px] text-blue-400">20 / hr</span>
+                        </div>
+                        <input type="range" id="batch-size" min="5" max="50" step="5" oninput="updateVal('batch-val', this.value + ' / hr')" onchange="saveSettings()" class="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500 mt-1">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="text-[10px] text-slate-500 uppercase font-black">Min Delay (s)</label>
+                            <input type="number" id="min-delay" onchange="saveSettings()" class="w-full mt-1 bg-slate-800 border border-slate-700 p-2 rounded-xl outline-none text-[10px]">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-slate-500 uppercase font-black">Max Delay (s)</label>
+                            <input type="number" id="max-delay" onchange="saveSettings()" class="w-full mt-1 bg-slate-800 border border-slate-700 p-2 rounded-xl outline-none text-[10px]">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-slate-500 uppercase font-black">Session Limit (Leads)</label>
+                        <input type="number" id="session-limit" onchange="saveSettings()" class="w-full mt-1 bg-slate-800 border border-slate-700 p-2 rounded-xl outline-none text-[10px]">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Lead Management -->
+            <div class="glass p-6 rounded-3xl space-y-4">
+                <h2 class="text-xl font-semibold">4. Leads</h2>
+                <textarea id="manual-urls" placeholder="Paste URLs (one per line)..." class="w-full h-20 bg-slate-800 border border-slate-700 p-2 rounded-xl outline-none text-[10px] resize-none"></textarea>
+                <button onclick="injectManual()" class="w-full py-2 bg-slate-700 rounded-xl font-bold text-[10px] hover:bg-slate-600 transition-all">Inject Manual Batch</button>
+                <div class="border border-dashed border-slate-700 rounded-xl p-3 text-center bg-slate-800/20">
+                    <input type="file" id="csv-upload" class="hidden" accept=".csv" onchange="uploadCSV()">
+                    <button onclick="document.getElementById('csv-upload').click()" class="text-blue-400 font-bold text-[10px]">Upload CSV</button>
+                </div>
+            </div>
+
+            <!-- 5. Engine -->
+            <div class="glass p-6 rounded-3xl space-y-4">
+                <h2 class="text-xl font-semibold">5. Engine</h2>
+                <button onclick="startBatch()" class="w-full py-4 bg-emerald-500 text-slate-950 rounded-2xl font-black text-sm shadow-xl shadow-emerald-500/10 hover:scale-[1.02] active:scale-95 transition-all">START ENGINE 🚀</button>
+                <button onclick="stopBatch()" class="w-full py-3 bg-red-500/10 text-red-500 border border-red-500/30 rounded-xl font-bold text-xs">EMERGENCY STOP</button>
+            </div>
+        </div>
+
+        <!-- Monitoring -->
+        <div class="glass p-6 rounded-3xl">
+            <h2 class="text-xl font-semibold mb-4 text-slate-400">Live Monitoring Hub</h2>
+            <div id="logs" class="bg-black/40 p-4 rounded-xl h-64 overflow-y-auto space-y-1">
+                <div class="log-line text-blue-400">[SYSTEM] Founderflow Hub operational.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔐 Gmail App Password Modal -->
+    <div id="google-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass max-w-2xl w-full p-8 rounded-3xl space-y-6 shadow-2xl border-blue-500/20">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-blue-400">Gmail Setup <span class="text-white font-light">/ 30s Guide</span></h2>
+                <button onclick="toggleModal('google-modal', false)" class="text-slate-500 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="bg-blue-500/5 p-4 rounded-2xl border border-blue-500/20 space-y-2">
+                <p class="text-[10px] text-blue-400 font-black uppercase">How to get your App Password?</p>
+                <ol class="text-[11px] text-slate-300 list-decimal list-inside space-y-1">
+                    <li>Go to <a href="https://myaccount.google.com/security" target="_blank" class="text-blue-400 underline">Google Security Settings</a>.</li>
+                    <li>Ensure <b>2-Step Verification</b> is ON.</li>
+                    <li>Search for <b>"App Passwords"</b> in the top search bar.</li>
+                    <li>Select "Other" > Type <b>"Founderflow"</b> > Click Generate.</li>
+                    <li>Copy the <b>16-character code</b> and paste it below.</li>
+                </ol>
+            </div>
+
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="text-slate-500 uppercase font-black">Gmail Address</label>
+                    <input type="email" id="g-email" class="w-full mt-1 bg-slate-800 border border-slate-700 p-3 rounded-xl outline-none text-blue-400" placeholder="yourname@gmail.com">
+                </div>
+                <div>
+                    <label class="text-slate-500 uppercase font-black">App Password (16 chars)</label>
+                    <input type="password" id="g-app-pass" class="w-full mt-1 bg-slate-800 border border-slate-700 p-3 rounded-xl outline-none text-emerald-400" placeholder="•••• •••• •••• ••••">
+                </div>
+                <button onclick="saveEmailConfig()" class="w-full py-4 btn-gradient rounded-2xl font-black text-sm shadow-xl shadow-blue-500/20">SEAL GMAIL NEXUS 🔐</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        
+        function updatePlatformText() {
+            const select = document.getElementById('platform-select');
+            const btn = document.getElementById('login-hub-btn');
+            const platform = select.options[select.selectedIndex].text.split(' ')[0];
+            btn.innerText = `Connect ${platform}`;
+        }
+
+        async function fetchStatus() {
+            const res = await fetch('/api/status');
+            const data = await res.json();
+            const badge = document.getElementById('status-badge');
+            badge.innerText = data.active ? '🟢 Engine Running' : (data.status === 'Connected' ? '🔵 Hub Standby' : '🔴 Needs Login');
+            badge.className = `px-4 py-2 rounded-full text-sm font-medium ${data.active ? 'bg-emerald-500/10 text-emerald-400' : (data.status === 'Connected' ? 'bg-blue-400/10 text-blue-400' : 'bg-red-500/10 text-red-400')}`;
+            
+            const msgInput = document.getElementById('msg-input');
+            const platformSelect = document.getElementById('platform-select');
+            
+            if (document.activeElement !== msgInput) msgInput.value = data.settings.message || "";
+            if (document.activeElement !== platformSelect) {
+                platformSelect.value = data.settings.platform;
+                updatePlatformText();
+            }
+
+            // Humanizer Populate
+            document.getElementById('batch-size').value = data.settings.batchSize || 20;
+            document.getElementById('batch-val').innerText = (data.settings.batchSize || 20) + ' / hr';
+            document.getElementById('min-delay').value = data.settings.minDelay || 120;
+            document.getElementById('max-delay').value = data.settings.maxDelay || 240;
+            document.getElementById('session-limit').value = data.settings.sessionLimit || 160;
+
+            if (data.settings.payloadName) {
+                document.getElementById('payload-status').innerText = `Armed: ${data.settings.payloadName}`;
+                document.getElementById('payload-status').className = "text-[9px] text-emerald-400 mt-1 truncate font-bold";
+            }
+
+            if (data.emailConfig) {
+                document.getElementById('g-email').value = data.emailConfig.email || "";
+                document.getElementById('g-app-pass').value = data.emailConfig.password || "";
+            }
+        }
+
+        function toggleModal(id, show) {
+            document.getElementById(id).classList.toggle('hidden', !show);
+        }
+
+        async function saveEmailConfig() {
+            const email = document.getElementById('g-email').value;
+            const password = document.getElementById('g-app-pass').value;
+            await fetch('/api/save-email-config', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            toggleModal('google-modal', false);
+            alert('✅ Gmail Nexus Sealed! Ready for outreach.');
+        }
+
+        function updateVal(id, val) { document.getElementById(id).innerText = val; }
+
+        setInterval(fetchStatus, 3000);
+        fetchStatus();
+
+        async function saveSettings() {
+            const message = document.getElementById('msg-input').value;
+            const platform = document.getElementById('platform-select').value;
+            const batchSize = parseInt(document.getElementById('batch-size').value);
+            const minDelay = parseInt(document.getElementById('min-delay').value);
+            const maxDelay = parseInt(document.getElementById('max-delay').value);
+            const sessionLimit = parseInt(document.getElementById('session-limit').value);
+
+            await fetch('/api/save-settings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, platform, batchSize, minDelay, maxDelay, sessionLimit })
+            });
+        }
+
+        async function login() { 
+            const select = document.getElementById('platform-select');
+            const platform = select.value;
+            
+            if (platform === 'gmail') {
+                toggleModal('google-modal', true);
+            } else {
+                await fetch('/api/login', { method: 'POST' }); 
+            }
+        }
+        
+        async function captureSession() { 
+            const res = await fetch('/api/capture-session', { method: 'POST' });
+            const data = await res.json();
+            if (data.success) alert(`✅ Connection Hard-Sealed! Platform: ${data.platform || 'General'}`);
+        }
+
+        async function uploadPayload() {
+            const file = document.getElementById('payload-upload').files[0];
+            if (!file) return;
+            
+            const formData = new FormData();
+            formData.append('payload', file);
+
+            const res = await fetch('/api/upload-payload', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('payload-status').innerText = `Armed: ${data.filename}`;
+                document.getElementById('payload-status').className = "text-[9px] text-emerald-400 mt-1 truncate font-bold";
+            }
+        }
+
+        async function injectManual() {
+            const lines = document.getElementById('manual-urls').value.split('\n').filter(l => l.trim() !== '');
+            const leads = lines.map(line => {
+                const parts = line.split(',').map(p => p.trim());
+                if (parts[0].includes('@')) {
+                    return { email: parts[0], name: parts[1] || parts[0].split('@')[0], url: parts[0] };
+                } else {
+                    return { url: parts[0], name: parts[1] || 'Founder' };
+                }
+            });
+            await fetch('/api/inject-leads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ leads })
+            });
+            alert(`✅ Injected ${leads.length} Smart-Leads.`);
+            document.getElementById('manual-urls').value = "";
+        }
+
+        async function uploadCSV() {
+            const file = document.getElementById('csv-upload').files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const text = e.target.result;
+                const rows = text.split('\n').filter(r => r.trim() !== '');
+                
+                const leads = rows.map(r => {
+                    const rowData = r.split(',').map(cell => cell.trim().replace(/^"|"$/g, ''));
+                    // 🏁 Smart-Search for Email pattern
+                    const email = rowData.find(cell => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cell));
+                    const url = rowData.find(cell => cell.includes('http'));
+                    const name = rowData[0] && rowData[0] !== email && rowData[0] !== url ? rowData[0] : (email ? email.split('@')[0] : 'Founder');
+                    
+                    if (email || url) {
+                        return { email, url: url || email, name };
+                    }
+                    return null;
+                }).filter(l => l !== null);
+                
+                await fetch('/api/inject-leads', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ leads })
+                });
+                alert(`✅ Injected ${leads.length} leads from CSV (Smart-Mapped).`);
+            };
+            reader.readAsText(file);
+        }
+
+        function startBatch() { socket.emit('start_outreach'); }
+        function stopBatch() { socket.emit('stop_outreach'); }
+
+        socket.on('log', (data) => {
+            const logs = document.getElementById('logs');
+            const div = document.createElement('div');
+            div.className = `log-line ${data.type === 'error' ? 'text-red-400' : (data.type === 'warn' ? 'text-amber-400' : 'text-slate-300')}`;
+            div.innerText = `[${new Date().toLocaleTimeString()}] ${data.message}`;
+            logs.appendChild(div);
+            logs.scrollTop = logs.scrollHeight;
+        });
+
+        socket.on('progress', (data) => {
+            const logs = document.getElementById('logs');
+            const div = document.createElement('div');
+            div.className = 'log-line text-emerald-400';
+            const identifier = data.email || data.url || 'Target';
+            div.innerText = `[OUTREACH] → ${identifier.substring(0, 30)}... [${data.status}]`;
+            logs.appendChild(div);
+            logs.scrollTop = logs.scrollHeight;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "message": "Hi {{username}}, love your content!\nHere is the demo",
+  "platform": "gmail",
+  "batchSize": 15,
+  "minDelay": 1200,
+  "maxDelay": 240,
+  "sessionLimit": 160
+}

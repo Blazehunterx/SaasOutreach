@@ -1,0 +1,17 @@
+{
+  "name": "skool-lead-gen-autonomous",
+  "version": "1.0.0",
+  "description": "24/7 Skool Discovery Harvester for Market Expansion",
+  "main": "skool_harvester.js",
+  "type": "module",
+  "scripts": {
+    "start": "node skool_harvester.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "playwright-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  },
+  "author": "Antigravity",
+  "license": "ISC"
+}

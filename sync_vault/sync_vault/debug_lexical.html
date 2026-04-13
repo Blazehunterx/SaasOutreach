@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Instagram Editor (Lexical Simulation)</title>
+    <style>
+        body { background: #0f172a; color: white; padding: 50px; font-family: sans-serif; }
+        .editor {
+            width: 500px;
+            min-height: 100px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 15px;
+            border-radius: 10px;
+            outline: none;
+        }
+        .editor:empty:before {
+            content: "Message...";
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Instagram Mock Editor</h1>
+    <p>This box mimics Instagram's behavior. If an injection is "invalid," it will revert or cut.</p>
+    
+    <div id="mock-editor" 
+         class="editor" 
+         contenteditable="true" 
+         aria-label="Message"
+         role="textbox"></div>
+
+    <div id="status" style="margin-top: 20px; color: #10b981;"></div>
+
+    <script>
+        const editor = document.getElementById('mock-editor');
+        const status = document.getElementById('status');
+
+        // Simulate Lexical/React state reconciliation
+        editor.addEventListener('input', (e) => {
+            status.innerText = `Last Input: "${editor.innerText}" (${editor.innerText.length} chars)`;
+            console.log('State Updated:', editor.innerText);
+        });
+    </script>
+</body>
+</html>

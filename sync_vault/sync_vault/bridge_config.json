@@ -1,0 +1,15 @@
+{
+  "user_id": "9fb204bc-8e73-40ab-b800-fb86928bf608",
+  "template": "Hey {name}, saw your {company} and loved the approach...",
+  "delay_seconds": 450,
+  "daily_limit": 75,
+  "target_platform": "linkedin",
+  "updated_at": "2026-04-11T17:17:52.293009+00:00",
+  "target_industry": "High-Ticket Ecom",
+  "target_scale": "Small (1-10)",
+  "target_niche": null,
+  "target_context": "Rebranding Intent",
+  "bio_keywords": "Founder, CEO, D2C",
+  "harvest_pulse_at": "2026-04-12T05:34:00.444+00:00",
+  "connection_pulse_at": "2026-04-13T08:39:53.668+00:00"
+}

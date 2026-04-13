@@ -1,0 +1,58 @@
+[
+    {
+        "name": "Maker School",
+        "url": "https://www.skool.com/maker-school-3221",
+        "members": 1500,
+        "ownerName": "Nick Saraev",
+        "ownerProfile": "https://www.skool.com/@nicksaraev",
+        "socials": {
+            "ig": "https://www.instagram.com/nicksaraev/",
+            "x": "https://twitter.com/nicksaraev",
+            "li": null
+        },
+        "status": "AUDITED",
+        "first_seen": "2024-04-05T20:00:00Z"
+    },
+    {
+        "name": "Headman Nation",
+        "url": "https://www.skool.com/headman-nation-8112",
+        "members": 2000,
+        "ownerName": "Casey Zander",
+        "ownerProfile": "https://www.skool.com/@caseyzander",
+        "socials": {
+            "ig": "https://www.instagram.com/caseyzander/",
+            "x": "https://twitter.com/CaseyZander",
+            "li": null
+        },
+        "status": "AUDITED",
+        "first_seen": "2024-04-05T20:00:00Z"
+    },
+    {
+        "name": "Skate IQ",
+        "url": "https://www.skool.com/skate-iq",
+        "members": 1000,
+        "ownerName": "Unknown",
+        "ownerProfile": null,
+        "socials": {
+            "ig": "https://www.instagram.com/skate.iq/",
+            "x": null,
+            "li": null
+        },
+        "status": "AUDITED",
+        "first_seen": "2024-04-05T20:00:00Z"
+    },
+    {
+        "name": "Liam Ottley (Agency)",
+        "url": "https://www.liamottley.com/",
+        "members": 0,
+        "ownerName": "Liam Ottley",
+        "ownerProfile": null,
+        "socials": {
+            "ig": "https://www.instagram.com/liamottley/",
+            "x": "https://twitter.com/liamottley",
+            "li": "https://www.linkedin.com/in/liamottley/"
+        },
+        "status": "VERIFIED_AGENCY",
+        "first_seen": "2024-04-05T20:00:00Z"
+    }
+]

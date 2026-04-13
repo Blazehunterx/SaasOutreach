@@ -1,0 +1,14 @@
+{
+  "name": "haki-outreach-engine",
+  "version": "1.0.0",
+  "description": "Portable email outreach automation engine using Nodemailer and Gmail SMTP.",
+  "main": "outreach_engine.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node outreach_engine.js"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.0",
+    "dotenv": "^16.0.3"
+  }
+}
