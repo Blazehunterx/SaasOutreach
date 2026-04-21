@@ -17,7 +17,9 @@ async function executeDemoStrike() {
     logTerminal(`🛡️ FINGERPRINT VALIDATED. ACCESS GRANTED.`);
 
     try {
-        const API_URL = (window.location.hostname === 'localhost') ? 'http://localhost:3001/api/demo-strike' : '/api/demo-strike';
+        const API_URL = (window.location.hostname === 'localhost') 
+            ? 'http://localhost:3001/api/demo-strike' 
+            : 'https://proposition-spencer-projector-appears.trycloudflare.com/api/demo-strike';
         
         const response = await fetch(API_URL, {
             method: 'POST',
