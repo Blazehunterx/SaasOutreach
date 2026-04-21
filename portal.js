@@ -2,9 +2,9 @@ async function executeDemoStrike() {
     const targetEl = document.getElementById('demo-target');
     const msgEl = document.getElementById('demo-msg');
     const btn = document.getElementById('demo-btn');
-    const logs = document.getElementById('demo-logs');
     
-    if (!targetEl.value) return alert('Please enter a target URL.');
+    if (!targetEl.value) return alert('Please enter a target handle or URL.');
+    if (msgEl.value.length > 200) return alert('Message too long (Max 200 chars).');
     
     const targetUrl = targetEl.value;
     const message = msgEl.value;
@@ -17,8 +17,6 @@ async function executeDemoStrike() {
     logTerminal(`🛡️ FINGERPRINT VALIDATED. ACCESS GRANTED.`);
 
     try {
-        // NOTE: If testing from Vercel, this should be your public tunnel URL (Cloudflare/ngrok)
-        // or a relative path if the bridge is serving this file.
         const API_URL = (window.location.hostname === 'localhost') ? 'http://localhost:3001/api/demo-strike' : '/api/demo-strike';
         
         const response = await fetch(API_URL, {
@@ -32,8 +30,13 @@ async function executeDemoStrike() {
         if (data.success) {
             logTerminal(`✅ SUCCESS: DEMO PAYLOAD DELIVERED.`);
             logTerminal(`🛰️ MISSION LOGGED IN MASTER PERSISTENCE.`);
-            btn.innerHTML = '<i class="fas fa-check"></i> Strike Successful';
-            btn.classList.add('btn-emerald');
+            
+            // Render the Visual Proof
+            document.getElementById('demo-hub').classList.add('hidden');
+            document.getElementById('trial-result').classList.remove('hidden');
+            if (data.proof) {
+                document.getElementById('proof-image').src = data.proof;
+            }
         } else {
             logTerminal(`❌ FAILED: ${data.error || 'Unknown network breach.'}`);
             btn.disabled = false;
