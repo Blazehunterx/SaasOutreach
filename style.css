@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&family=Inter:wght@300;400;700&family=JetBrains+Mono&display=swap');
+
+:root {
+    --bg: #030712;
+    --surface: #0a0f1d;
+    --glass: rgba(17, 24, 39, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --primary: #6366f1;
+    --primary-glow: rgba(99, 102, 241, 0.3);
+    --accent: #10b981;
+    --text: #f8fafc;
+    --text-dim: #94a3b8;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-box: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+}
+
+h1, h2, h3, .heading { font-family: var(--font-heading); font-weight: 900; letter-spacing: -0.04em; }
+
+/* 💎 GLASSMORPHISM */
+.glass {
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+}
+
+/* 🚀 NAVIGATION */
+nav {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+}
+
+.nav-links { display: flex; gap: 40px; }
+.nav-links a { 
+    text-decoration: none; 
+    color: var(--text-dim); 
+    font-size: 11px; 
+    text-transform: uppercase; 
+    font-weight: 900; 
+    letter-spacing: 0.2em;
+    transition: all 0.3s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
+
+/* ✨ HERO SECTION */
+.hero {
+    padding: 180px 5% 100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.hero h1 { font-size: 80px; line-height: 1.1; max-width: 900px; margin-bottom: 20px; }
+.gradient-text {
+    background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p { color: var(--text-dim); font-size: 20px; max-width: 600px; }
+
+/* ⚡ BUTTONS */
+.btn {
+    padding: 20px 48px;
+    border-radius: 100px;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+}
+
+.btn-primary { 
+    background: var(--primary); 
+    color: white; 
+    box-shadow: 0 10px 30px var(--primary-glow);
+}
+
+.btn-primary:hover { transform: translateY(-5px); box-shadow: 0 20px 40px var(--primary-glow); }
+
+/* 🧩 GRID LAYOUTS */
+.container { max-width: 1200px; margin: 0 auto; padding: 100px 5%; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+
+/* 🏛️ COMPONENT: CARD */
+.card {
+    padding: 40px;
+    background: rgba(255,255,255,0.02);
+    transition: all 0.4s;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card:hover { background: rgba(255,255,255,0.04); transform: translateY(-10px); }
+.card i { font-size: 32px; color: var(--primary); }
+
+/* 🧠 NEURAL VISUALIZER */
+.neural-box {
+    width: 100%;
+    height: 400px;
+    background: black;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 📠 TERMINAL */
+.terminal {
+    background: #050811;
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 20px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--primary);
+    min-height: 200px;
+}
+
+/* 👥 TEAM CARDS */
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+.team-card { text-align: center; }
+.team-img { 
+    width: 100%; 
+    aspect-ratio: 1; 
+    background: var(--surface); 
+    border-radius: 32px; 
+    margin-bottom: 20px; 
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: var(--text-dim);
+}

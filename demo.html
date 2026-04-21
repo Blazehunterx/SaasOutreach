@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Demo | Test the Sovereign Brain</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="glass">
+        <div class="logo heading" style="font-size: 24px; color: white;">FOUNDER<span style="color: var(--primary);">FLOW</span></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">Mission</a>
+            <a href="science.html">Technology</a>
+            <a href="demo.html" class="active">Live Demo</a>
+        </div>
+        <button class="btn btn-primary" style="padding: 12px 30px;">Get Started</button>
+    </nav>
+
+    <section class="hero" style="padding-bottom: 20px;">
+        <h1 style="font-size: 60px;">Live <span class="gradient-text">Matrix</span> Demonstration</h1>
+        <p>Experience the power of the Sovereign Outreach engine. Trigger a single demonstration strike to any public Instagram profile.</p>
+    </section>
+
+    <div class="container" style="padding-top: 20px;">
+        <div class="grid-3" style="grid-template-columns: 1fr 1fr; gap: 60px;">
+            
+            <div class="glass p-12 space-y-10">
+                <h2 class="heading" style="font-size: 32px;">Strike Request</h2>
+                <p style="color: var(--text-dim); font-size: 14px;">Enter a public Instagram URL or Handle. The system will autonomously launch a persistent browser, navigate to the target, and deliver the demo payload.</p>
+                
+                <div class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="heading" style="font-size: 10px; color: var(--primary); text-transform: uppercase;">Target URL / Handle</label>
+                        <input type="text" id="demo-target" placeholder="https://instagram.com/pcoscoachansha" class="glass" style="width: 100%; border: none; outline: none; padding: 20px; color: white; background: rgba(0,0,0,0.3);">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="heading" style="font-size: 10px; color: var(--primary); text-transform: uppercase;">Custom Message (Optional)</label>
+                        <textarea id="demo-msg" placeholder="Hey! I'm an autonomous agent from FounderFlow..." class="glass" style="width: 100%; height: 100px; border: none; outline: none; padding: 20px; color: white; background: rgba(0,0,0,0.3); resize: none;"></textarea>
+                    </div>
+                </div>
+
+                <button onclick="executeDemoStrike()" id="demo-btn" class="btn btn-primary" style="width: 100%;">Initiate Demo Strike ⚡</button>
+                <p style="font-size: 10px; color: var(--text-dim); text-align: center;">PROTECTION ACTIVE: 1 DM per device per month.</p>
+            </div>
+
+            <div class="flex flex-col gap-10">
+                <div class="terminal glass flex-1" style="min-height: 400px; overflow-y: auto;">
+                    <div id="demo-logs">
+                        [IDLE] Awaiting terminal signal...<br>
+                    </div>
+                </div>
+                <div class="glass p-8 flex items-center justify-between">
+                    <div>
+                        <h4 class="heading" style="font-size: 12px;">Admin Nexus</h4>
+                        <p style="font-size: 10px; color: var(--text-dim);">Restricted local management port.</p>
+                    </div>
+                    <a href="http://localhost:3001" class="btn glass" style="padding: 10px 20px; font-size: 10px;">Link Hub</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer style="padding: 100px 5%; text-align: center; border-top: 1px solid var(--glass-border);">
+        <div class="logo heading" style="font-size: 20px; color: white; margin-bottom: 20px;">FOUNDERFLOW</div>
+        <p style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.2em;">Built for the next generation of sales and marketing.</p>
+    </footer>
+
+    <script src="portal.js"></script>
+</body>
+</html>
