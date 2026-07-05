@@ -3,67 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About | FounderFlow Mission</title>
+    <title>Our Mission — FounderFlow | Instagram Outreach Automation</title>
+    <meta name="description" content="Why we built FounderFlow — the story of a setter who automated manual Instagram outreach. Save 3+ hours a day with automated DMs, AI replies, and call booking.">
+    <meta name="keywords" content="instagram outreach tool, DM automation, founder story, outreach automation, instagram marketing">
+    <link rel="canonical" href="https://saasoutreach-demo.vercel.app/about.html">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <nav class="glass">
-        <div class="logo heading" style="font-size: 24px; color: white;">FOUNDER<span style="color: var(--primary);">FLOW</span></div>
+    <nav>
+        <a href="index.html" class="logo">FOUNDER<span>FLOW</span></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="about.html" class="active">Mission</a>
             <a href="science.html">Technology</a>
             <a href="demo.html">Live Demo</a>
         </div>
-        <button class="btn btn-primary" style="padding: 12px 30px;">Get Started</button>
+        <div class="nav-actions">
+            <a href="https://founderflow-dashboard.vercel.app" class="btn btn-ghost btn-sm">Dashboard</a>
+            <a href="https://calendly.com/ayankhannn19/new-meeting" class="btn btn-primary btn-sm">Book a Call</a>
+        </div>
     </nav>
 
-    <section class="hero" style="padding-bottom: 50px;">
-        <h1 style="font-size: 60px;">The <span class="gradient-text">Whale Protocol</span> Mission</h1>
-        <p>We are a lean collective of automation engineers and high-ticket closers dedicated to eliminating the friction of B2B discovery.</p>
+    <section class="hero" style="padding-bottom: 40px;">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            Our Story
+        </div>
+        <h1>We built FounderFlow because <span class="gradient-text">manual outreach sucks</span>.</h1>
+        <p>It's tedious, it's slow, and it takes time away from the work that actually matters.</p>
     </section>
 
-    <div class="container" style="padding-top: 50px;">
-        <div class="glass" style="padding: 60px; margin-bottom: 80px;">
-            <h2 class="heading" style="margin-bottom: 30px; font-size: 32px;">Why FounderFlow?</h2>
-            <p style="color: var(--text-dim); font-size: 18px; max-width: 800px;">The current sales landscape is broken. Humans spend 80% of their time finding leads and 20% actually closing them. We flipped the matrix. <br><br>Sovereign agents do the heavy lifting—from identification to initial settlement—allowing you to focus exclusively on the high-level strategy of your domain.</p>
+    <div class="container" style="padding-bottom: 60px;">
+        <div class="glass about-story fade-in-up">
+            <h2 style="font-size: 28px; margin-bottom: 24px;">The Problem</h2>
+            <p>Before building FounderFlow, I worked as a setter — sending DMs manually for hours every day. Copy-pasting the same messages, tracking who replied in a spreadsheet, following up with leads who went quiet. It worked, but it was <strong>soul-crushing</strong>.</p>
+            <p>I was spending 3+ hours a day on outreach alone. That's 15+ hours a week just sending messages — time I could have spent on strategy, product, or actually closing deals.</p>
+            <p>The tools that existed were either too expensive, too complicated, or built for agencies (not individual founders). I wanted something simple: a system that finds leads, sends DMs, handles replies, and books calls — without me touching anything.</p>
         </div>
 
-        <h2 class="heading" style="text-align: center; font-size: 48px; margin-bottom: 60px;">Meet the <span class="gradient-text">Matrix Operators</span></h2>
-        <div class="team-grid">
-            <div class="team-card">
-                <div class="team-img"><i class="fas fa-code"></i></div>
-                <h3 class="heading">Marvin</h3>
-                <p style="font-size: 10px; font-weight: 900; color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">Lead Architect</p>
-                <p style="font-size: 13px; color: var(--text-dim);">The mind behind the Sovereign Trinity. Specializes in autonomous multi-agent systems and deep-web crawling.</p>
-            </div>
-            <div class="team-card">
-                <div class="team-img"><i class="fas fa-bullseye"></i></div>
-                <h3 class="heading">Sales Op 01</h3>
-                <p style="font-size: 10px; font-weight: 900; color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">Scale Strategist</p>
-                <p style="font-size: 13px; color: var(--text-dim);">Ensures lead quality meets the "Whale" standard (10K+ Followers / 3K MMR).</p>
-            </div>
-            <div class="team-card">
-                <div class="team-img"><i class="fas fa-bolt"></i></div>
-                <h3 class="heading">Sales Op 02</h3>
-                <p style="font-size: 10px; font-weight: 900; color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">Outreach Expert</p>
-                <p style="font-size: 13px; color: var(--text-dim);">Optimizes Humanizer Protocols to maintain 100% account safety across the matrix.</p>
-            </div>
-            <div class="team-card">
-                <div class="team-img"><i class="fas fa-comment-dots"></i></div>
-                <h3 class="heading">Sales Op 03</h3>
-                <p style="font-size: 10px; font-weight: 900; color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">Settlement Lead</p>
-                <p style="font-size: 13px; color: var(--text-dim);">Trains the Sovereign Brain for high-ticket objection handling and calendar booking.</p>
-            </div>
+        <div class="glass about-story fade-in-up">
+            <h2 style="font-size: 28px; margin-bottom: 24px;">The Solution</h2>
+            <p>So I built it. <strong>FounderFlow</strong> runs three engines in the background:</p>
+            <p><strong>1. Discovery</strong> — Finds leads in your niche automatically. No more manual searching.</p>
+            <p><strong>2. Outreach</strong> — Sends personalized DMs at a human-like pace. Follow-ups go out on their own if someone doesn't reply.</p>
+            <p><strong>3. AI Setter</strong> — When someone replies, an AI assistant handles the conversation. It answers questions, deals with objections naturally, and sends your calendar link when they're ready to talk.</p>
+            <p>The result? Instead of 3 hours a day on DMs, you spend 15 minutes checking your pipeline and showing up to booked calls.</p>
+        </div>
+
+        <div class="glass about-story fade-in-up">
+            <h2 style="font-size: 28px; margin-bottom: 24px;">Who It's For</h2>
+            <p>FounderFlow is built for <strong>personal brand builders</strong> — coaches, creators, fitness professionals, consultants, real estate agents, and small business owners who want inbound leads without hiring a team.</p>
+            <p>If you're currently doing your own DMs (or paying someone to do it), and you want that time back — this is for you.</p>
         </div>
     </div>
 
-    <footer style="padding: 100px 5%; text-align: center; border-top: 1px solid var(--glass-border);">
-        <div class="logo heading" style="font-size: 20px; color: white; margin-bottom: 20px;">FOUNDERFLOW</div>
-        <p style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.2em;">Built for the next generation of sales and marketing.</p>
+    <!-- TIMELINE -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2>How We <span class="gradient-text">Got Here</span></h2>
+            </div>
+            <div class="timeline fade-in-up">
+                <div class="timeline-item">
+                    <h4>The Grind</h4>
+                    <p>Spending 3+ hours/day sending DMs manually as a setter. Knew there had to be a better way.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>The First Engine</h4>
+                    <p>Built a DM automation tool for personal use. Immediately saved hours every day.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>Adding AI</h4>
+                    <p>Integrated Gemini to handle replies automatically. The AI Setter was born — conversations handled without human input.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>FounderFlow Today</h4>
+                    <p>A complete outreach system: discovery, DMs, AI replies, follow-ups, and a full CRM pipeline. Now available to other founders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2>The <span class="gradient-text">Team</span></h2>
+                <p>A lean team focused on automation and results.</p>
+            </div>
+            <div class="team-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 600px; margin: 0 auto;">
+                <div class="team-card fade-in-up">
+                    <div class="team-avatar"><i class="fas fa-code"></i></div>
+                    <h4>Marvin</h4>
+                    <div class="team-role">Founder & Lead Engineer</div>
+                    <p>Built FounderFlow from scratch. Former setter who automated himself out of manual work.</p>
+                </div>
+                <div class="team-card fade-in-up">
+                    <div class="team-avatar"><i class="fas fa-bullseye"></i></div>
+                    <h4>Sales Lead</h4>
+                    <div class="team-role">Strategy & Outreach</div>
+                    <p>Handles lead quality and outreach strategy. Makes sure the right people get contacted.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-box fade-in-up">
+            <h2>Want to see it work?</h2>
+            <p>Book a call or try the live demo — no commitment, just a conversation.</p>
+            <div class="cta-actions">
+                <a href="https://calendly.com/ayankhannn19/new-meeting" class="btn btn-primary btn-lg">
+                    <i class="fas fa-calendar"></i>
+                    Book a Call
+                </a>
+                <a href="demo.html" class="btn btn-ghost btn-lg">
+                    <i class="fas fa-play"></i>
+                    Try the Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo">FOUNDER<span>FLOW</span></div>
+        <p>Automated Instagram outreach for coaches, creators, and founders.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">Mission</a>
+            <a href="science.html">Technology</a>
+            <a href="demo.html">Live Demo</a>
+            <a href="https://founderflow-dashboard.vercel.app">Dashboard</a>
+        </div>
     </footer>
 
+    <script src="app.js"></script>
 </body>
 </html>

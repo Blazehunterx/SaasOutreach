@@ -3,80 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Demo | Test the Sovereign Brain</title>
+    <title>Live Demo — Try FounderFlow Instagram Outreach Simulation</title>
+    <meta name="description" content="See how FounderFlow automates Instagram outreach — enter any handle and watch the full cycle: lead discovery, DM sent, AI reply, call booked. Interactive simulation.">
+    <meta name="keywords" content="instagram outreach demo, DM automation demo, try instagram automation, outreach simulation">
+    <link rel="canonical" href="https://saasoutreach-demo.vercel.app/demo.html">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <nav class="glass">
-        <div class="logo heading" style="font-size: 24px; color: white;">FOUNDER<span style="color: var(--primary);">FLOW</span></div>
+    <nav>
+        <a href="index.html" class="logo">FOUNDER<span>FLOW</span></a>
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="about.html">Mission</a>
             <a href="science.html">Technology</a>
             <a href="demo.html" class="active">Live Demo</a>
         </div>
-        <button class="btn btn-primary" style="padding: 12px 30px;">Get Started</button>
+        <div class="nav-actions">
+            <a href="https://founderflow-dashboard.vercel.app" class="btn btn-ghost btn-sm">Dashboard</a>
+            <a href="https://calendly.com/ayankhannn19/new-meeting" class="btn btn-primary btn-sm">Book a Call</a>
+        </div>
     </nav>
 
     <section class="hero" style="padding-bottom: 20px;">
-        <h1 style="font-size: 60px;">Live <span class="gradient-text">Matrix</span> Demonstration</h1>
-        <p>Experience the power of the Sovereign Outreach engine. Trigger a single demonstration strike to any public Instagram profile.</p>
+        <div class="hero-badge">
+            <span class="dot"></span>
+            Interactive Simulation
+        </div>
+        <h1>See FounderFlow <span class="gradient-text">in action</span></h1>
+        <p>Enter any public Instagram handle and watch the full outreach cycle — from discovery to booked call. This is a simulation, no real DMs are sent.</p>
     </section>
 
-    <div class="container" style="padding-top: 20px;">
-        <div class="grid-3" style="grid-template-columns: 1fr 1fr; gap: 60px;">
-            
-            <div class="glass p-12 space-y-10">
-                <h2 class="heading" style="font-size: 32px;">Strike Request</h2>
-                <p style="color: var(--text-dim); font-size: 14px;">Enter a public Instagram URL or Handle. The system will autonomously launch a persistent browser, navigate to the target, and deliver the demo payload.</p>
-                
-                <div class="space-y-6">
-                    <div class="space-y-2">
-                        <label class="heading" style="font-size: 10px; color: var(--primary); text-transform: uppercase;">Target URL / Handle</label>
-                        <input type="text" id="demo-target" placeholder="https://instagram.com/pcoscoachansha" class="glass" style="width: 100%; border: none; outline: none; padding: 20px; color: white; background: rgba(0,0,0,0.3);">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="heading" style="font-size: 10px; color: var(--primary); text-transform: uppercase;">Custom Message (Optional)</label>
-                        <textarea id="demo-msg" placeholder="Hey! I'm an autonomous agent from FounderFlow..." class="glass" style="width: 100%; height: 100px; border: none; outline: none; padding: 20px; color: white; background: rgba(0,0,0,0.3); resize: none;"></textarea>
+    <div class="demo-container">
+        <!-- INPUT CARD -->
+        <div class="glass demo-input-card" id="demo-input">
+            <h2>Try the simulation</h2>
+            <p class="subtitle">Enter an Instagram handle to see exactly what FounderFlow would do.</p>
+
+            <div class="input-group">
+                <label>Instagram Handle or URL</label>
+                <input type="text" id="demo-target" placeholder="@username or https://instagram.com/username">
+            </div>
+
+            <div class="input-group">
+                <label>Opening DM (optional — we'll use a default if empty)</label>
+                <textarea id="demo-msg" placeholder="Saw your page — good stuff. I used to be a setter myself and built a tool that automates the manual DM grind..."></textarea>
+            </div>
+
+            <button onclick="runSimulation()" id="demo-btn" class="btn btn-primary btn-lg" style="width: 100%;">
+                <i class="fas fa-play"></i>
+                Start Simulation
+            </button>
+
+            <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 16px;">
+                <i class="fas fa-shield-halved"></i>
+                No real DMs are sent. This is a visual simulation only.
+            </p>
+        </div>
+
+        <!-- SIMULATION STEPS -->
+        <div class="glass sim-screen" id="demo-simulation">
+            <div id="sim-steps">
+                <div class="sim-step" data-step="0">
+                    <div class="sim-step-icon pending"><i class="fas fa-search"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">Discovering lead</div>
+                        <div class="sim-step-desc">Searching Instagram for <span id="sim-handle"></span></div>
                     </div>
                 </div>
 
-                <button onclick="executeDemoStrike()" id="demo-btn" class="btn btn-primary" style="width: 100%;">Initiate Demo Strike ⚡</button>
-                <p style="font-size: 10px; color: var(--text-dim); text-align: center;">PROTECTION ACTIVE: 1 DM per device per month.</p>
-            </div>
-
-            <div class="flex flex-col gap-10">
-                    <div id="trial-result" class="hidden space-y-8 animate-in fade-in zoom-in duration-700">
-                        <div class="p-8 bg-emerald-500/10 border border-emerald-500/20 rounded-3xl text-center">
-                            <p class="text-emerald-400 font-black uppercase tracking-widest text-xs">Mission Success</p>
-                            <h3 class="text-2xl font-black mt-2">Check your phone, there you will see the proof of work!</h3>
-                        </div>
-
-                        <!-- 📸 VISUAL PROOF MONITOR -->
-                        <div class="relative group">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-[32px] blur opacity-25 group-hover:opacity-50 transition-all"></div>
-                            <div class="relative glass bg-black/40 rounded-[32px] overflow-hidden border border-white/5">
-                                <img id="proof-image" src="" alt="Proof of Work" class="w-full grayscale hover:grayscale-0 transition-all duration-1000">
-                                <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black to-transparent">
-                                    <p class="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Sovereign Visual Handshake v7.3</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button onclick="location.reload()" class="w-full py-6 bg-white/5 border border-white/10 text-white rounded-[32px] font-black text-xs uppercase tracking-widest hover:bg-white/10 transition-all">Test Another Handle</button>
+                <div class="sim-step" data-step="1">
+                    <div class="sim-step-icon pending"><i class="fas fa-user-check"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">Profile found</div>
+                        <div class="sim-step-desc">Validating niche match and account quality</div>
                     </div>
+                </div>
+
+                <div class="sim-step" data-step="2">
+                    <div class="sim-step-icon pending"><i class="fas fa-pen"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">Drafting personalized DM</div>
+                        <div class="sim-step-desc">Generating opening message</div>
+                        <div class="sim-step-preview" id="sim-dm-preview"></div>
+                    </div>
+                </div>
+
+                <div class="sim-step" data-step="3">
+                    <div class="sim-step-icon pending"><i class="fas fa-paper-plane"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">DM sent</div>
+                        <div class="sim-step-desc">Message delivered to inbox</div>
+                    </div>
+                </div>
+
+                <div class="sim-step" data-step="4">
+                    <div class="sim-step-icon pending"><i class="fas fa-clock"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">Waiting for reply</div>
+                        <div class="sim-step-desc">Lead received the DM — monitoring for response</div>
+                    </div>
+                </div>
+
+                <div class="sim-step" data-step="5">
+                    <div class="sim-step-icon pending"><i class="fas fa-reply"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">Reply received</div>
+                        <div class="sim-step-desc">Lead responded to the DM</div>
+                        <div class="sim-step-preview" id="sim-reply-preview"></div>
+                    </div>
+                </div>
+
+                <div class="sim-step" data-step="6">
+                    <div class="sim-step-icon pending"><i class="fas fa-brain"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">AI Setter analyzing reply</div>
+                        <div class="sim-step-desc">Detecting intent and generating response</div>
+                    </div>
+                </div>
+
+                <div class="sim-step" data-step="7">
+                    <div class="sim-step-icon pending"><i class="fas fa-comment"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">AI reply sent</div>
+                        <div class="sim-step-desc">Natural conversation continues</div>
+                        <div class="sim-step-preview" id="sim-ai-reply-preview"></div>
+                    </div>
+                </div>
+
+                <div class="sim-step" data-step="8">
+                    <div class="sim-step-icon pending"><i class="fas fa-calendar-check"></i></div>
+                    <div class="sim-step-content">
+                        <div class="sim-step-title">Call booked</div>
+                        <div class="sim-step-desc">Calendly link sent and meeting scheduled</div>
+                        <div class="sim-step-preview" id="sim-calendly-preview"></div>
+                    </div>
+                </div>
             </div>
 
+            <button onclick="resetSimulation()" class="btn btn-ghost" style="width: 100%; margin-top: 24px;">
+                <i class="fas fa-rotate-left"></i>
+                Run Another Simulation
+            </button>
+        </div>
+
+        <!-- RESULT -->
+        <div class="glass sim-screen sim-result" id="demo-result">
+            <div class="check"><i class="fas fa-check"></i></div>
+            <h3>Simulation Complete</h3>
+            <p id="sim-result-text"></p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 24px;">
+                <a href="https://calendly.com/ayankhannn19/new-meeting" class="btn btn-primary btn-lg">
+                    <i class="fas fa-calendar"></i>
+                    Book a Real Call
+                </a>
+                <a href="https://founderflow-dashboard.vercel.app" class="btn btn-ghost btn-lg">
+                    <i class="fas fa-chart-line"></i>
+                    View Dashboard
+                </a>
+            </div>
+            <button onclick="resetSimulation()" class="btn btn-ghost" style="margin-top: 16px;">
+                <i class="fas fa-rotate-left"></i>
+                Run Another Simulation
+            </button>
         </div>
     </div>
 
-    <footer style="padding: 100px 5%; text-align: center; border-top: 1px solid var(--glass-border);">
-        <div class="logo heading" style="font-size: 20px; color: white; margin-bottom: 20px;">FOUNDERFLOW</div>
-        <p style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.2em;">Built for the next generation of sales and marketing.</p>
+    <footer>
+        <div class="logo">FOUNDER<span>FLOW</span></div>
+        <p>Automated Instagram outreach for coaches, creators, and founders.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">Mission</a>
+            <a href="science.html">Technology</a>
+            <a href="demo.html">Live Demo</a>
+            <a href="https://founderflow-dashboard.vercel.app">Dashboard</a>
+        </div>
     </footer>
 
-    <script src="portal.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
