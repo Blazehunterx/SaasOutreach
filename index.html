@@ -86,17 +86,27 @@
 
     <nav>
         <a href="index.html" class="logo" style="display: flex; align-items: center;"><img src="logo.png" alt="FounderFlow Logo" style="height: 40px; margin-right: 10px; border-radius: 4px;">FOUNDER<span>FLOW</span></a>
+        <button class="nav-toggle" onclick="this.classList.toggle('active');document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
         <div class="nav-links">
             <a href="index.html" class="active">Home</a>
             <a href="about.html">Mission</a>
             <a href="science.html">Technology</a>
             <a href="demo.html">Live Demo</a>
+            <a href="https://founderflow-dashboard.vercel.app/signup" class="btn btn-primary btn-sm" style="margin-top: 8px;">Get Started Free</a>
         </div>
         <div class="nav-actions">
             <a href="https://founderflow-dashboard.vercel.app" class="btn btn-ghost btn-sm">Dashboard</a>
             <a href="https://calendly.com/ayankhannn19/new-meeting" class="btn btn-primary btn-sm">Book a Call</a>
         </div>
     </nav>
+
+    <!-- Mobile bottom CTA (hidden on desktop) -->
+    <div class="mobile-cta" style="display: none;">
+        <a href="https://founderflow-dashboard.vercel.app/signup" class="btn btn-primary">Get Started Free</a>
+        <a href="https://calendly.com/ayankhannn19/new-meeting" class="btn btn-ghost">Book a Call</a>
+    </div>
 
     <main>
     <!-- HERO -->
