@@ -499,7 +499,7 @@ if (videoWrapper) {
 }
 
 // --- 3D Card Tilt Effect ---
-document.querySelectorAll('.feature-card, .testimonial-card, .faq-item, .tech-item, .testimonial-quote, .dashboard-mock').forEach(card => {
+document.querySelectorAll('.feature-card, .testimonial-card, .faq-item, .tech-item, .testimonial-quote').forEach(card => {
     card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
