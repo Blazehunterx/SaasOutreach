@@ -725,3 +725,27 @@ function resetSimulation() {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+// --- Dashboard Mock Navigation ---
+(function() {
+    var navItems = document.querySelectorAll('.dm-nav-item');
+    var panels = document.querySelectorAll('.dm-panel');
+    var topbarTitle = document.getElementById('dm-topbar-title');
+    var titles = { dashboard: 'Dashboard', pipeline: 'Pipeline', engine: 'Engine', settings: 'Settings' };
+
+    navItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            var target = this.getAttribute('data-panel');
+
+            navItems.forEach(function(n) { n.classList.remove('active'); });
+            this.classList.add('active');
+
+            panels.forEach(function(p) { p.classList.remove('active'); });
+            var panel = document.querySelector('.dm-panel[data-panel="' + target + '"]');
+            if (panel) panel.classList.add('active');
+
+            if (topbarTitle) topbarTitle.textContent = titles[target] || target;
+        });
+    });
+})();
