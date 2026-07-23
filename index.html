@@ -81,8 +81,25 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- CDN Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 </head>
 <body>
+
+    <!-- Page transition overlay -->
+    <div class="page-transition"></div>
+
+    <!-- Three.js particle canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Background effects -->
+    <div class="bg-mesh"></div>
+    <div class="grid-pattern"></div>
+    <div class="noise"></div>
 
     <nav>
         <a href="index.html" class="logo" style="display: flex; align-items: center;"><img src="logo.png" alt="FounderFlow Logo" style="height: 40px; margin-right: 10px; border-radius: 4px;">FOUNDER<span>FLOW</span></a>
@@ -111,6 +128,7 @@
     <main>
     <!-- HERO -->
     <section class="hero">
+        <div class="hero-decoration"></div>
         <div class="hero-badge">
             <span class="dot"></span>
             Now accepting new clients
@@ -130,6 +148,96 @@
                 <i class="fas fa-calendar"></i>
                 Book a Call
             </a>
+        </div>
+
+        <!-- Interactive Dashboard Mock -->
+        <div class="dashboard-mock fade-in-up">
+            <div class="dm-sidebar">
+                <div class="dm-logo">
+                    <div class="dm-logo-icon"><i class="fas fa-bolt"></i></div>
+                    <span class="dm-logo-text">FounderFlow</span>
+                </div>
+                <nav class="dm-nav">
+                    <a class="dm-nav-item active"><i class="fas fa-gauge-high"></i><span>Dashboard</span></a>
+                    <a class="dm-nav-item"><i class="fas fa-filter"></i><span>Pipeline</span></a>
+                    <a class="dm-nav-item"><i class="fas fa-wifi"></i><span>Engine</span></a>
+                    <a class="dm-nav-item"><i class="fas fa-gear"></i><span>Settings</span></a>
+                </nav>
+                <div class="dm-sidebar-footer">
+                    <div class="dm-engine-status">
+                        <span class="dm-pulse"></span>
+                        <span>Engine Running</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dm-main">
+                <div class="dm-topbar">
+                    <span class="dm-topbar-title">Dashboard</span>
+                    <div class="dm-topbar-right">
+                        <div class="dm-search"><i class="fas fa-search"></i><span>Search leads...</span></div>
+                        <div class="dm-avatar">JD</div>
+                    </div>
+                </div>
+                <div class="dm-content">
+                    <div class="dm-stats-row">
+                        <div class="dm-stat-card">
+                            <div class="dm-stat-icon" style="background: rgba(139,92,246,0.15); color: #a78bfa;"><i class="fas fa-users"></i></div>
+                            <div class="dm-stat-info">
+                                <div class="dm-stat-num">17,234</div>
+                                <div class="dm-stat-label">Leads Discovered</div>
+                            </div>
+                        </div>
+                        <div class="dm-stat-card">
+                            <div class="dm-stat-icon" style="background: rgba(56,189,248,0.15); color: #38bdf8;"><i class="fas fa-paper-plane"></i></div>
+                            <div class="dm-stat-info">
+                                <div class="dm-stat-num">2,947</div>
+                                <div class="dm-stat-label">DMs Sent</div>
+                            </div>
+                        </div>
+                        <div class="dm-stat-card">
+                            <div class="dm-stat-icon" style="background: rgba(6,214,160,0.15); color: #06d6a0;"><i class="fas fa-reply"></i></div>
+                            <div class="dm-stat-info">
+                                <div class="dm-stat-num">13.2%</div>
+                                <div class="dm-stat-label">Reply Rate</div>
+                            </div>
+                        </div>
+                        <div class="dm-stat-card">
+                            <div class="dm-stat-icon" style="background: rgba(244,114,182,0.15); color: #f472b6;"><i class="fas fa-calendar-check"></i></div>
+                            <div class="dm-stat-info">
+                                <div class="dm-stat-num">89</div>
+                                <div class="dm-stat-label">Calls Booked</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dm-funnel-card">
+                        <div class="dm-funnel-header">
+                            <span class="dm-funnel-title">Conversion Funnel</span>
+                            <span class="dm-funnel-period">Last 30 days</span>
+                        </div>
+                        <div class="dm-funnel-bars">
+                            <div class="dm-funnel-row"><span class="dm-funnel-label">Discovered</span><div class="dm-funnel-track"><div class="dm-funnel-fill" style="width:100%; background: #6b7280;"></div></div><span class="dm-funnel-count">17,234</span></div>
+                            <div class="dm-funnel-row"><span class="dm-funnel-label">DM Sent</span><div class="dm-funnel-track"><div class="dm-funnel-fill" style="width:42%; background: #3b82f6;"></div></div><span class="dm-funnel-count">2,947</span></div>
+                            <div class="dm-funnel-row"><span class="dm-funnel-label">Replied</span><div class="dm-funnel-track"><div class="dm-funnel-fill" style="width:18%; background: #8b5cf6;"></div></div><span class="dm-funnel-count">389</span></div>
+                            <div class="dm-funnel-row"><span class="dm-funnel-label">Meeting</span><div class="dm-funnel-track"><div class="dm-funnel-fill" style="width:8%; background: #f59e0b;"></div></div><span class="dm-funnel-count">89</span></div>
+                            <div class="dm-funnel-row"><span class="dm-funnel-label">Qualified</span><div class="dm-funnel-track"><div class="dm-funnel-fill" style="width:5%; background: #10b981;"></div></div><span class="dm-funnel-count">47</span></div>
+                            <div class="dm-funnel-row"><span class="dm-funnel-label">Closed</span><div class="dm-funnel-track"><div class="dm-funnel-fill" style="width:3%; background: #059669;"></div></div><span class="dm-funnel-count">23</span></div>
+                        </div>
+                    </div>
+                    <div class="dm-activity-card">
+                        <div class="dm-activity-header">
+                            <span class="dm-activity-title">Live Activity</span>
+                            <span class="dm-activity-badge"><span class="dm-pulse"></span> Real-time</span>
+                        </div>
+                        <div class="dm-activity-feed">
+                            <div class="dm-activity-entry"><span class="dm-activity-dot" style="background:#10b981;"></span><span class="dm-activity-text">New lead discovered: <strong>@fitness_coach_mike</strong></span><span class="dm-activity-time">2m ago</span></div>
+                            <div class="dm-activity-entry"><span class="dm-activity-dot" style="background:#3b82f6;"></span><span class="dm-activity-text">DM sent to <strong>@marketing_pro_sarah</strong></span><span class="dm-activity-time">5m ago</span></div>
+                            <div class="dm-activity-entry"><span class="dm-activity-dot" style="background:#8b5cf6;"></span><span class="dm-activity-text">Reply received from <strong>@online_coach_dave</strong> — AI responding</span><span class="dm-activity-time">8m ago</span></div>
+                            <div class="dm-activity-entry"><span class="dm-activity-dot" style="background:#f59e0b;"></span><span class="dm-activity-text">Call booked: <strong>@consulting_jen</strong> via Calendly</span><span class="dm-activity-time">12m ago</span></div>
+                            <div class="dm-activity-entry"><span class="dm-activity-dot" style="background:#06d6a0;"></span><span class="dm-activity-text">Follow-up sent to <strong>@real_estate_tom</strong> (step 2)</span><span class="dm-activity-time">15m ago</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -193,27 +301,90 @@
         </div>
     </section>
 
-    <!-- PIPELINE FLOW -->
+    <!-- PIPELINE FUNNEL -->
     <section class="section" style="padding-top: 0;">
         <div class="container">
             <div class="section-header fade-in-up">
                 <h2>The <span class="gradient-text">Pipeline</span></h2>
-                <p>Every lead moves through a clear pipeline — from discovery to closed deal.</p>
+                <p>We find. We engage. We qualify. You close.</p>
             </div>
-            <div class="glass" style="padding: 40px;">
-                <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 14px;">
-                    <span style="padding: 10px 20px; background: rgba(100, 116, 139, 0.1); border: 1px solid rgba(100, 116, 139, 0.2); border-radius: 100px; color: var(--text-dim);">Discovered</span>
-                    <i class="fas fa-arrow-right" style="color: var(--text-muted); font-size: 12px;"></i>
-                    <span style="padding: 10px 20px; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 100px; color: var(--primary-light);">DM Sent</span>
-                    <i class="fas fa-arrow-right" style="color: var(--text-muted); font-size: 12px;"></i>
-                    <span style="padding: 10px 20px; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 100px; color: #c084fc;">Replied</span>
-                    <i class="fas fa-arrow-right" style="color: var(--text-muted); font-size: 12px;"></i>
-                    <span style="padding: 10px 20px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 100px; color: var(--accent);">Meeting Booked</span>
-                    <i class="fas fa-arrow-right" style="color: var(--text-muted); font-size: 12px;"></i>
-                    <span style="padding: 10px 20px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 100px; color: #4ade80;">Qualified</span>
-                    <i class="fas fa-arrow-right" style="color: var(--text-muted); font-size: 12px;"></i>
-                    <span style="padding: 10px 20px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 100px; color: #fbbf24;">Closed Won</span>
+            <div class="funnel-grid">
+
+                <div class="funnel-bracket">
+                    <div class="funnel-bracket-inner">
+                        <span class="funnel-group-title">FOUNDERFLOW</span>
+                        <span class="funnel-group-sub">AI Client<br>Acquisition<br>System</span>
+                    </div>
                 </div>
+
+                <div class="funnel-row" style="--w:100%;">
+                    <div class="funnel-label"><span class="funnel-num">1</span><span>Target Lead<br>Discovery</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);"><i class="fas fa-users"></i></div>
+                </div>
+                <div class="funnel-row" style="--w:93%;">
+                    <div class="funnel-label"><span class="funnel-num">2</span><span>Lead<br>Filtering</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #845ef0, #7551e8);"><i class="fas fa-filter"></i></div>
+                </div>
+                <div class="funnel-row" style="--w:86%;">
+                    <div class="funnel-label"><span class="funnel-num">3</span><span>Automated<br>Outreach</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #7c55e8, #6e4ede);"><i class="fas fa-paper-plane"></i></div>
+                </div>
+                <div class="funnel-row" style="--w:79%;">
+                    <div class="funnel-label"><span class="funnel-num">4</span><span>Reply<br>Detection</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #744de0, #6748d4);"><i class="fas fa-comment-dots"></i></div>
+                </div>
+                <div class="funnel-row" style="--w:72%;">
+                    <div class="funnel-label"><span class="funnel-num">5</span><span>AI Setter<br>(Qualifies Lead)</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #6c44d8, #6042ca);"><i class="fas fa-robot"></i></div>
+                </div>
+                <div class="funnel-row" style="--w:65%;">
+                    <div class="funnel-label"><span class="funnel-num">6</span><span>Follow-Up<br>Sequence</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #643cd0, #593cc0);"><i class="fas fa-envelope"></i></div>
+                </div>
+                <div class="funnel-row" style="--w:58%;">
+                    <div class="funnel-label"><span class="funnel-num">7</span><span>Sales-Ready<br>Prospect</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #5b34c8, #4f46e5);"><i class="fas fa-user-check"></i></div>
+                </div>
+
+                <div class="funnel-handover">
+                    <span class="funnel-handover-line"></span>
+                    <span class="funnel-handover-pill">SYSTEM HANDOVER</span>
+                    <span class="funnel-handover-line"></span>
+                </div>
+
+                <div class="funnel-bracket funnel-bracket-accent">
+                    <div class="funnel-bracket-inner">
+                        <span class="funnel-group-title" style="color: var(--accent);">YOUR SALES</span>
+                        <span class="funnel-group-sub">Process</span>
+                    </div>
+                </div>
+
+                <div class="funnel-row" style="--w:52%;">
+                    <div class="funnel-label"><span class="funnel-num funnel-num-accent">8</span><span>Call<br>Booking</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #10b981, #059669);"><i class="fas fa-calendar-check"></i></div>
+                </div>
+                <div class="funnel-row" style="--w:46%;">
+                    <div class="funnel-label"><span class="funnel-num funnel-num-accent">9</span><span>Sales<br>Conversation</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fas fa-phone"></i></div>
+                </div>
+                <div class="funnel-row" style="--w:40%;">
+                    <div class="funnel-label"><span class="funnel-num funnel-num-accent">10</span><span>New<br>Client</span></div>
+                    <div class="funnel-layer" style="background: linear-gradient(135deg, #ef4444, #dc2626);"><i class="fas fa-user-plus"></i></div>
+                </div>
+
+                <div class="funnel-footer glass glass-glow">
+                    <div class="funnel-footer-icon"><i class="fas fa-bullseye"></i></div>
+                    <div class="funnel-footer-text">
+                        <strong>FounderFlow generates qualified opportunities.</strong>
+                        <span>Your team turns them into clients &amp; revenue.</span>
+                    </div>
+                    <div class="funnel-footer-chips">
+                        <span class="funnel-chip"><i class="fas fa-users"></i> More Conversations</span>
+                        <span class="funnel-chip"><i class="fas fa-calendar-check"></i> More Booked Calls</span>
+                        <span class="funnel-chip"><i class="fas fa-chart-line"></i> More Clients &amp; Revenue</span>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -252,6 +423,104 @@
         </div>
     </section>
 
+    <!-- CLIENT TESTIMONIALS -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2>What <span class="gradient-text">Clients</span> Say</h2>
+                <p>Real feedback from founders running FounderFlow every day.</p>
+            </div>
+            <div class="testimonials-quote-grid">
+                <div class="testimonial-quote glass-glow fade-in-up">
+                    <blockquote>
+                        I have been using FounderFlow for my coaching business, and it has performed exactly as expected. The system finds the right people, sends personalized messages, and handles replies without me lifting a finger. What has impressed me the most is how natural the AI conversations sound — my leads genuinely think they are talking to me. I can confidently say this has transformed how I attract new clients.
+                    </blockquote>
+                    <div class="testimonial-author">
+                        <img src="jani-havunen.jpg" alt="Jani Havunen" class="testimonial-avatar testimonial-avatar-img">
+                        <div class="testimonial-author-info">
+                            <h4>Jani Havunen</h4>
+                            <p>Author &amp; Coach — FounderFlow Client</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-quote glass-glow fade-in-up">
+                    <blockquote>
+                        I was spending hours every day sending DMs with almost no replies. A friend told me about FounderFlow and I was skeptical at first — I had tried automation tools before and they always got my account flagged. The warmup mode and human-like pacing won me over. My pipeline fills up automatically now and I just show up to the calls that matter.
+                    </blockquote>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">MR</div>
+                        <div class="testimonial-author-info">
+                            <h4>Marcus Reynolds</h4>
+                            <p>Fitness Coach — FounderFlow Client</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-quote glass-glow fade-in-up">
+                    <blockquote>
+                        I run two different outreach campaigns through FounderFlow — one for my course launch and one for affiliate partnerships — and both just work. The AI Setter trained on my brand voice in an afternoon, and the follow-up sequences catch leads I would have lost track of. Every question I have had since launch was answered within a few hours by the team.
+                    </blockquote>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SK</div>
+                        <div class="testimonial-author-info">
+                            <h4>Sarah Kimura</h4>
+                            <p>Course Creator — FounderFlow Client</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2>Simple, <span class="gradient-text">Transparent</span> Pricing</h2>
+                <p>No hidden fees. No surprises. Two plans that scale with your outreach.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card fade-in-up">
+                    <div class="pricing-badge">One-time</div>
+                    <h3>Implementation</h3>
+                    <div class="pricing-price">$2,500</div>
+                    <p class="pricing-desc">Everything you need to launch your automated outreach system.</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Full system setup &amp; deployment</li>
+                        <li><i class="fas fa-check"></i> AI DM engine configured for your niche</li>
+                        <li><i class="fas fa-check"></i> AI auto-responder trained on your brand</li>
+                        <li><i class="fas fa-check"></i> Follow-up sequences built &amp; tested</li>
+                        <li><i class="fas fa-check"></i> Pipeline CRM with live funnel tracking</li>
+                        <li><i class="fas fa-check"></i> Dashboard access with real-time analytics</li>
+                        <li><i class="fas fa-check"></i> Onboarding call &amp; walkthrough</li>
+                    </ul>
+                    <a href="https://calendly.com/ayankhannn19/new-meeting" class="btn btn-ghost btn-lg" style="width: 100%; justify-content: center; margin-top: auto;">
+                        <i class="fas fa-calendar"></i>
+                        Book a Call
+                    </a>
+                </div>
+                <div class="pricing-card pricing-card-featured fade-in-up">
+                    <div class="pricing-badge pricing-badge-featured">Most Popular</div>
+                    <h3>Growth Plan</h3>
+                    <div class="pricing-price">$297<span class="pricing-period">/month</span></div>
+                    <p class="pricing-desc">Ongoing support, lead generation, and performance optimization.</p>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Automated lead harvesting (new leads daily)</li>
+                        <li><i class="fas fa-check"></i> Monthly performance reports &amp; analytics</li>
+                        <li><i class="fas fa-check"></i> 24/7 priority support &amp; troubleshooting</li>
+                        <li><i class="fas fa-check"></i> Engine updates &amp; optimization patches</li>
+                        <li><i class="fas fa-check"></i> AI reply tuning &amp; persona refinement</li>
+                        <li><i class="fas fa-check"></i> Warmup management for new accounts</li>
+                        <li><i class="fas fa-check"></i> Dedicated success manager</li>
+                    </ul>
+                    <a href="https://founderflow-dashboard.vercel.app/signup" class="btn btn-primary btn-lg" style="width: 100%; justify-content: center; margin-top: auto;">
+                        <i class="fas fa-rocket"></i>
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- HOW IT WORKS -->
     <section class="section" style="padding-top: 0;">
         <div class="container">
@@ -261,21 +530,21 @@
             </div>
             <div class="features-grid">
                 <div class="feature-card fade-in-up">
-                    <div class="feature-icon" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.15); color: var(--accent);">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, rgba(6, 214, 160, 0.15), rgba(6, 214, 160, 0.05)); border-color: rgba(6, 214, 160, 0.2); color: var(--accent);">
                         <span style="font-weight: 900; font-size: 20px;">1</span>
                     </div>
                     <h3>Book a Call</h3>
                     <p>15-minute conversation to understand your niche, goals, and whether FounderFlow is the right fit. No pitch deck, no pressure.</p>
                 </div>
                 <div class="feature-card fade-in-up">
-                    <div class="feature-icon" style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.15); color: #c084fc;">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(244, 114, 182, 0.05)); border-color: rgba(244, 114, 182, 0.2); color: var(--pink);">
                         <span style="font-weight: 900; font-size: 20px;">2</span>
                     </div>
                     <h3>We Set Everything Up</h3>
                     <p>FounderFlow is configured for your Instagram account, your niche, and your opening message. The AI Setter is trained on your persona and offer.</p>
                 </div>
                 <div class="feature-card fade-in-up">
-                    <div class="feature-icon" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05)); border-color: rgba(245, 158, 11, 0.2); color: #fbbf24;">
                         <span style="font-weight: 900; font-size: 20px;">3</span>
                     </div>
                     <h3>Show Up to Calls</h3>
@@ -293,107 +562,105 @@
                 <p>How FounderFlow stacks up against GHL, Manychat, manual outreach, and hiring a VA.</p>
             </div>
             <div class="glass fade-in-up" style="overflow-x: auto; padding: 0;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                <table class="comparison-table">
                     <thead>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <th style="text-align: left; padding: 20px 24px; font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Feature</th>
-                            <th style="text-align: center; padding: 20px 24px;">
-                                <span style="font-size: 18px; font-weight: 800; color: var(--primary-light);">FounderFlow</span>
-                            </th>
-                            <th style="text-align: center; padding: 20px 24px; font-size: 14px; color: var(--text-dim);">GHL</th>
-                            <th style="text-align: center; padding: 20px 24px; font-size: 14px; color: var(--text-dim);">Manychat</th>
-                            <th style="text-align: center; padding: 20px 24px; font-size: 14px; color: var(--text-dim);">Manual DMs</th>
-                            <th style="text-align: center; padding: 20px 24px; font-size: 14px; color: var(--text-dim);">Hiring a VA</th>
+                        <tr>
+                            <th>Feature</th>
+                            <th class="highlight"><span>FounderFlow</span></th>
+                            <th style="text-align: center;">GHL</th>
+                            <th style="text-align: center;">Manychat</th>
+                            <th style="text-align: center;">Manual DMs</th>
+                            <th style="text-align: center;">Hiring a VA</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">Lead discovery</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> Automated</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Import / Manual</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Inbound Only</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Manual search</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Manual search</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">DM sending</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> 50-75/day auto</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> No cold outreach</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> No Cold Outreach</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">20-30/day manual</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">30-50/day</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">Reply handling</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> AI auto-replies</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Basic chat widget</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Rigid Keyword Menus</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> You reply manually</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">VA replies (needs training)</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">Follow-ups</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> Automatic</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Workflow triggers</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Time-based Triggers</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Easy to forget</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Inconsistent</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">Call booking</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> AI sends Calendly</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Built-in calendar</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Clickable Buttons</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Manual back-and-forth</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Manual back-and-forth</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">CRM pipeline</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> Built-in</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Full CRM</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Basic Tags</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Spreadsheets</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Spreadsheets</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">Runs 24/7</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> Yes</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Landing pages only</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">If they message first</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Only when you work</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">8h/day max</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">Time required from you</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);">~15 min/day</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Hours setting up</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Hours building flows</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">2-3 hours/day</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">1-2 hours/day managing</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid var(--glass-border);">
-                            <td style="padding: 16px 24px;">Monthly cost</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);">Software fee</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">$97-$497/mo</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">$15-$25/mo</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Free (your time)</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">$500-$2,000+/mo</td>
+                        <tr>
+                            <td>Lead discovery</td>
+                            <td class="center check"><i class="fas fa-check"></i> Automated</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Import / Manual</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Inbound Only</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Manual search</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Manual search</td>
                         </tr>
                         <tr>
-                            <td style="padding: 16px 24px;">Scales beyond 100 DMs/day</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> Add accounts</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> No cold outreach</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Inbound Only</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Impossible alone</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Need more VAs</td>
+                            <td>DM sending</td>
+                            <td class="center check"><i class="fas fa-check"></i> 50-75/day auto</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> No cold outreach</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> No Cold Outreach</td>
+                            <td class="center x">20-30/day manual</td>
+                            <td class="center x">30-50/day</td>
                         </tr>
                         <tr>
-                            <td style="padding: 16px 24px;">Live support & customer care</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--accent);"><i class="fas fa-check"></i> Direct founder access</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">Email / chat support</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> Bots / Tickets</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);"><i class="fas fa-xmark"></i> You're on your own</td>
-                            <td style="text-align: center; padding: 16px 24px; color: var(--text-muted);">VA manages themselves</td>
+                            <td>Reply handling</td>
+                            <td class="center check"><i class="fas fa-check"></i> AI auto-replies</td>
+                            <td class="center x">Basic chat widget</td>
+                            <td class="center x">Rigid Keyword Menus</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> You reply manually</td>
+                            <td class="center x">VA replies (needs training)</td>
+                        </tr>
+                        <tr>
+                            <td>Follow-ups</td>
+                            <td class="center check"><i class="fas fa-check"></i> Automatic</td>
+                            <td class="center x">Workflow triggers</td>
+                            <td class="center x">Time-based Triggers</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Easy to forget</td>
+                            <td class="center x">Inconsistent</td>
+                        </tr>
+                        <tr>
+                            <td>Call booking</td>
+                            <td class="center check"><i class="fas fa-check"></i> AI sends Calendly</td>
+                            <td class="center x">Built-in calendar</td>
+                            <td class="center x">Clickable Buttons</td>
+                            <td class="center x">Manual back-and-forth</td>
+                            <td class="center x">Manual back-and-forth</td>
+                        </tr>
+                        <tr>
+                            <td>CRM pipeline</td>
+                            <td class="center check"><i class="fas fa-check"></i> Built-in</td>
+                            <td class="center x">Full CRM</td>
+                            <td class="center x">Basic Tags</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Spreadsheets</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Spreadsheets</td>
+                        </tr>
+                        <tr>
+                            <td>Runs 24/7</td>
+                            <td class="center check"><i class="fas fa-check"></i> Yes</td>
+                            <td class="center x">Landing pages only</td>
+                            <td class="center x">If they message first</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Only when you work</td>
+                            <td class="center x">8h/day max</td>
+                        </tr>
+                        <tr>
+                            <td>Time required from you</td>
+                            <td class="center check">~15 min/day</td>
+                            <td class="center x">Hours setting up</td>
+                            <td class="center x">Hours building flows</td>
+                            <td class="center x">2-3 hours/day</td>
+                            <td class="center x">1-2 hours/day managing</td>
+                        </tr>
+                        <tr>
+                            <td>Monthly cost</td>
+                            <td class="center check">Software fee</td>
+                            <td class="center x">$97-$497/mo</td>
+                            <td class="center x">$15-$25/mo</td>
+                            <td class="center x">Free (your time)</td>
+                            <td class="center x">$500-$2,000+/mo</td>
+                        </tr>
+                        <tr>
+                            <td>Scales beyond 100 DMs/day</td>
+                            <td class="center check"><i class="fas fa-check"></i> Add accounts</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> No cold outreach</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Inbound Only</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Impossible alone</td>
+                            <td class="center x">Need more VAs</td>
+                        </tr>
+                        <tr>
+                            <td>Live support & customer care</td>
+                            <td class="center check"><i class="fas fa-check"></i> Direct founder access</td>
+                            <td class="center x">Email / chat support</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> Bots / Tickets</td>
+                            <td class="center x"><i class="fas fa-xmark"></i> You're on your own</td>
+                            <td class="center x">VA manages themselves</td>
                         </tr>
                     </tbody>
                 </table>
@@ -408,25 +675,25 @@
                 <h2>Common <span class="gradient-text">Questions</span></h2>
             </div>
             <div style="max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;">
-                <div class="glass fade-in-up" style="padding: 28px;">
-                    <h4 style="font-size: 17px; margin-bottom: 10px;">Is this safe for my Instagram account?</h4>
-                    <p style="color: var(--text-dim); font-size: 15px;">Yes. FounderFlow runs on a real browser session (not a bot farm), sends 50-75 DMs per day with human-like delays, and includes warmup mode for new accounts. The engine also detects action blocks and pauses immediately if Instagram flags anything.</p>
+                <div class="faq-item fade-in-up">
+                    <h4><i class="fas fa-shield-halved"></i> Is this safe for my Instagram account?</h4>
+                    <p>Yes. FounderFlow runs on a real browser session (not a bot farm), sends 50-75 DMs per day with human-like delays, and includes warmup mode for new accounts. The engine also detects action blocks and pauses immediately if Instagram flags anything.</p>
                 </div>
-                <div class="glass fade-in-up" style="padding: 28px;">
-                    <h4 style="font-size: 17px; margin-bottom: 10px;">Does the AI actually sound human?</h4>
-                    <p style="color: var(--text-dim); font-size: 15px;">The AI Setter is trained on your persona — your tone, your product, your angle. It generates every reply fresh (no templates), asks questions to keep conversations moving, and only sends your calendar link when someone shows genuine interest.</p>
+                <div class="faq-item fade-in-up">
+                    <h4><i class="fas fa-robot"></i> Does the AI actually sound human?</h4>
+                    <p>The AI Setter is trained on your persona — your tone, your product, your angle. It generates every reply fresh (no templates), asks questions to keep conversations moving, and only sends your calendar link when someone shows genuine interest.</p>
                 </div>
-                <div class="glass fade-in-up" style="padding: 28px;">
-                    <h4 style="font-size: 17px; margin-bottom: 10px;">What niches does this work for?</h4>
-                    <p style="color: var(--text-dim); font-size: 15px;">FounderFlow works for any personal brand on Instagram — coaches, fitness professionals, consultants, real estate agents, creators, therapists, musicians, and small business owners. If you sell something and your clients are on Instagram, it works.</p>
+                <div class="faq-item fade-in-up">
+                    <h4><i class="fas fa-bullseye"></i> What niches does this work for?</h4>
+                    <p>FounderFlow works for any personal brand on Instagram — coaches, fitness professionals, consultants, real estate agents, creators, therapists, musicians, and small business owners. If you sell something and your clients are on Instagram, it works.</p>
                 </div>
-                <div class="glass fade-in-up" style="padding: 28px;">
-                    <h4 style="font-size: 17px; margin-bottom: 10px;">How much time does this save?</h4>
-                    <p style="color: var(--text-dim); font-size: 15px;">Most founders spend 2-3 hours a day on manual outreach. FounderFlow reduces that to about 15 minutes — just checking your pipeline and showing up to booked calls.</p>
+                <div class="faq-item fade-in-up">
+                    <h4><i class="fas fa-clock"></i> How much time does this save?</h4>
+                    <p>Most founders spend 2-3 hours a day on manual outreach. FounderFlow reduces that to about 15 minutes — just checking your pipeline and showing up to booked calls.</p>
                 </div>
-                <div class="glass fade-in-up" style="padding: 28px;">
-                    <h4 style="font-size: 17px; margin-bottom: 10px;">Do I need technical skills to use this?</h4>
-                    <p style="color: var(--text-dim); font-size: 15px;">No. You download the connector, log into your Instagram through it, and it securely uploads your session to our server. The engine runs from there — you just monitor results on the dashboard. Everything is shown in plain English: leads found, DMs sent, replies, calls booked.</p>
+                <div class="faq-item fade-in-up">
+                    <h4><i class="fas fa-laptop"></i> Do I need technical skills to use this?</h4>
+                    <p>No. You download the connector, log into your Instagram through it, and it securely uploads your session to our server. The engine runs from there — you just monitor results on the dashboard. Everything is shown in plain English: leads found, DMs sent, replies, calls booked.</p>
                 </div>
             </div>
         </div>
@@ -466,5 +733,30 @@
     </footer>
 
     <script src="app.js"></script>
+    <script>
+    // Fetch live stats from dashboard API (fallback to hardcoded values)
+    (function() {
+        var cached = sessionStorage.getItem('ff_stats');
+        if (cached) {
+            try { applyStats(JSON.parse(cached)); } catch(e) {}
+            return;
+        }
+        fetch('https://founderflow-dashboard.vercel.app/api/public-stats')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                sessionStorage.setItem('ff_stats', JSON.stringify(data));
+                applyStats(data);
+            })
+            .catch(function() {});
+        function applyStats(d) {
+            var nums = document.querySelectorAll('.stats-bar .stat-num');
+            if (nums.length >= 4) {
+                if (d.leads_discovered) nums[0].textContent = Number(d.leads_discovered).toLocaleString() + '+';
+                if (d.dms_sent) nums[1].textContent = Number(d.dms_sent).toLocaleString() + '+';
+                if (d.reply_rate) nums[2].textContent = d.reply_rate + '%';
+            }
+        }
+    })();
+    </script>
 </body>
 </html>
