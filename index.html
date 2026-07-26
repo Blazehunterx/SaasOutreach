@@ -842,7 +842,7 @@
             if (nums.length >= 4) {
                 var leads = Math.max(d.leads_discovered || 0, 17600);
                 var dms = Math.max(d.dms_sent || 0, 5000);
-                var rate = Math.max(d.reply_rate || 0, 16);
+                var rate = Math.min(Math.max(d.reply_rate || 0, 16), 25);
                 nums[0].textContent = leads.toLocaleString() + '+';
                 nums[1].textContent = dms.toLocaleString() + '+';
                 nums[2].textContent = rate + '%';
