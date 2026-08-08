@@ -917,7 +917,8 @@
         var API_URL = 'https://founderflow-dashboard.vercel.app/api/public-stats';
 
         function fetchStats() {
-            fetch(API_URL)
+            var bust = '?t=' + Date.now();
+            fetch(API_URL + bust)
                 .then(function(r) { return r.json(); })
                 .then(function(data) {
                     applyHeroStats(data);
@@ -986,13 +987,41 @@
             }
             var html = '';
             items.forEach(function(item) {
-                var icon = item.action === 'reply_received' ? 'fa-reply' : 'fa-paper-plane';
-                var color = item.action === 'reply_received' ? '#06d6a0' : '#8b5cf6';
-                var label = item.action === 'reply_received' ? 'Reply received' : 'DM sent';
+                var icon, color, label, detail;
+                var action = item.action || '';
+                var msg = item.message || '';
+                var handle = item.handle || '';
+
+                if (action === 'reply_received' || action === 'auto_replied') {
+                    icon = 'fa-reply'; color = '#06d6a0'; label = 'Reply received';
+                    detail = handle ? '@' + handle : '';
+                } else if (action === 'dm_sent' || action === 'sent') {
+                    icon = 'fa-paper-plane'; color = '#8b5cf6'; label = 'DM sent';
+                    detail = handle ? '@' + handle : '';
+                } else if (action === 'sleep' || action === 'SLEEP') {
+                    icon = 'fa-moon'; color = '#38bdf8'; label = 'Engine sleeping';
+                    detail = msg.substring(0, 60);
+                } else if (action === 'pulse' || action === 'PULSE') {
+                    icon = 'fa-heartbeat'; color = '#f472b6'; label = 'Pulse cycle';
+                    detail = msg.substring(0, 60);
+                } else if (action === 'error' || action === 'ERROR') {
+                    icon = 'fa-exclamation-triangle'; color = '#ef4444'; label = 'Error';
+                    detail = msg.substring(0, 60);
+                } else if (action === 'dm_verified' || action === 'VERIFIED') {
+                    icon = 'fa-check-circle'; color = '#06d6a0'; label = 'DM verified';
+                    detail = handle ? '@' + handle : msg.substring(0, 60);
+                } else if (action === 'auto_reply' || action === 'AI_REPLY') {
+                    icon = 'fa-robot'; color = '#a78bfa'; label = 'AI replied';
+                    detail = handle ? '@' + handle : msg.substring(0, 60);
+                } else {
+                    icon = 'fa-circle'; color = '#64748b'; label = action;
+                    detail = handle ? '@' + handle : msg.substring(0, 60);
+                }
+
                 html += '<div class="activity-row">' +
                     '<span class="activity-dot" style="background:' + color + '"></span>' +
                     '<span class="activity-action">' + label + '</span>' +
-                    '<span class="activity-handle">@' + item.handle + '</span>' +
+                    '<span class="activity-handle">' + detail + '</span>' +
                     '<span class="activity-time">' + item.time + '</span>' +
                     '</div>';
             });
