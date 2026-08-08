@@ -915,9 +915,10 @@
     <script>
     (function() {
         var API_URL = 'https://founderflow-dashboard.vercel.app/api/public-stats';
-        var SSE_URL = 'https://founderflow-dashboard.vercel.app/api/live-feed';
+        var FEED_URL = 'https://founderflow-dashboard.vercel.app/api/live-feed';
         var MAX_FEED = 20;
         var feedItems = [];
+        var lastTs = 0;
 
         function fetchStats() {
             var bust = '?t=' + Date.now();
@@ -930,26 +931,22 @@
                 .catch(function() {});
         }
 
-        function startLiveFeed() {
-            if (typeof EventSource === 'undefined') {
-                fetchStats();
-                setInterval(fetchStats, 15000);
-                return;
-            }
-            var source = new EventSource(SSE_URL);
-            source.onmessage = function(e) {
-                try {
-                    var d = JSON.parse(e.data);
-                    if (d.type === 'connected' || d.type === 'heartbeat') return;
-                    if (d.type === 'error') return;
-                    feedItems.unshift(d);
-                    if (feedItems.length > MAX_FEED) feedItems.length = MAX_FEED;
-                    renderFeed();
-                } catch(err) {}
-            };
-            source.onerror = function() {
-                setTimeout(function() { startLiveFeed(); }, 5000);
-            };
+        function pollFeed() {
+            var url = FEED_URL + '?since=' + (lastTs || (Date.now() - 60000));
+            fetch(url)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    var events = data.events || [];
+                    if (events.length > 0) {
+                        events.forEach(function(ev) {
+                            feedItems.unshift(ev);
+                            if (ev.ts > lastTs) lastTs = ev.ts;
+                        });
+                        if (feedItems.length > MAX_FEED) feedItems.length = MAX_FEED;
+                        renderFeed();
+                    }
+                })
+                .catch(function() {});
         }
 
         function applyHeroStats(d) {
@@ -1062,9 +1059,10 @@
 
         // Initial load
         fetchStats();
-        startLiveFeed();
-        // Auto-refresh stats every 30s
+        pollFeed();
+        // Auto-refresh stats every 30s, live feed every 3s
         setInterval(fetchStats, 30000);
+        setInterval(pollFeed, 3000);
     })();
     </script>
 </body>
