@@ -915,6 +915,9 @@
     <script>
     (function() {
         var API_URL = 'https://founderflow-dashboard.vercel.app/api/public-stats';
+        var SSE_URL = 'https://founderflow-dashboard.vercel.app/api/live-feed';
+        var MAX_FEED = 20;
+        var feedItems = [];
 
         function fetchStats() {
             var bust = '?t=' + Date.now();
@@ -922,10 +925,31 @@
                 .then(function(r) { return r.json(); })
                 .then(function(data) {
                     applyHeroStats(data);
-                    applyActivityFeed(data.recent_activity || []);
                     applyCaseStudy(data);
                 })
                 .catch(function() {});
+        }
+
+        function startLiveFeed() {
+            if (typeof EventSource === 'undefined') {
+                fetchStats();
+                setInterval(fetchStats, 15000);
+                return;
+            }
+            var source = new EventSource(SSE_URL);
+            source.onmessage = function(e) {
+                try {
+                    var d = JSON.parse(e.data);
+                    if (d.type === 'connected' || d.type === 'heartbeat') return;
+                    if (d.type === 'error') return;
+                    feedItems.unshift(d);
+                    if (feedItems.length > MAX_FEED) feedItems.length = MAX_FEED;
+                    renderFeed();
+                } catch(err) {}
+            };
+            source.onerror = function() {
+                setTimeout(function() { startLiveFeed(); }, 5000);
+            };
         }
 
         function applyHeroStats(d) {
@@ -978,47 +1002,46 @@
             }, 16);
         }
 
-        function applyActivityFeed(items) {
+        function renderFeed() {
             var feed = document.getElementById('activity-feed');
             if (!feed) return;
-            if (items.length === 0) {
-                feed.innerHTML = '<div class="activity-empty">No recent activity</div>';
+            if (feedItems.length === 0) {
+                feed.innerHTML = '<div class="activity-empty">Waiting for engine activity...</div>';
                 return;
             }
             var html = '';
-            items.forEach(function(item) {
-                var icon, color, label, detail;
+            feedItems.forEach(function(item, i) {
+                var icon, color, label;
                 var action = item.action || '';
                 var msg = item.message || '';
                 var handle = item.handle || '';
 
-                if (action === 'reply_received' || action === 'auto_replied') {
-                    icon = 'fa-reply'; color = '#06d6a0'; label = 'Reply received';
-                    detail = handle ? '@' + handle : '';
+                if (action === 'reply_received' || action === 'auto_replied' || action === 'AI_REPLY') {
+                    icon = 'fa-reply'; color = '#06d6a0'; label = 'AI replied';
                 } else if (action === 'dm_sent' || action === 'sent') {
                     icon = 'fa-paper-plane'; color = '#8b5cf6'; label = 'DM sent';
-                    detail = handle ? '@' + handle : '';
-                } else if (action === 'sleep' || action === 'SLEEP') {
-                    icon = 'fa-moon'; color = '#38bdf8'; label = 'Engine sleeping';
-                    detail = msg.substring(0, 60);
-                } else if (action === 'pulse' || action === 'PULSE') {
-                    icon = 'fa-heartbeat'; color = '#f472b6'; label = 'Pulse cycle';
-                    detail = msg.substring(0, 60);
+                } else if (action === 'WARM') {
+                    icon = 'fa-fire'; color = '#f59e0b'; label = 'Warm-up';
+                } else if (action === 'DM_SENT' || action === 'DM_VERIFIED') {
+                    icon = 'fa-check-circle'; color = '#06d6a0'; label = 'DM sent';
+                } else if (action === 'DM_FAILED' || action === 'BLOCKED') {
+                    icon = 'fa-exclamation-triangle'; color = '#ef4444'; label = 'Blocked';
+                } else if (action === 'SLEEP' || action === 'sleep') {
+                    icon = 'fa-moon'; color = '#38bdf8'; label = 'Sleeping';
+                } else if (action === 'PULSE' || action === 'pulse') {
+                    icon = 'fa-heartbeat'; color = '#f472b6'; label = 'Pulse';
+                } else if (action === 'AI_THREAD') {
+                    icon = 'fa-robot'; color = '#a78bfa'; label = 'AI processing';
                 } else if (action === 'error' || action === 'ERROR') {
                     icon = 'fa-exclamation-triangle'; color = '#ef4444'; label = 'Error';
-                    detail = msg.substring(0, 60);
-                } else if (action === 'dm_verified' || action === 'VERIFIED') {
-                    icon = 'fa-check-circle'; color = '#06d6a0'; label = 'DM verified';
-                    detail = handle ? '@' + handle : msg.substring(0, 60);
-                } else if (action === 'auto_reply' || action === 'AI_REPLY') {
-                    icon = 'fa-robot'; color = '#a78bfa'; label = 'AI replied';
-                    detail = handle ? '@' + handle : msg.substring(0, 60);
                 } else {
                     icon = 'fa-circle'; color = '#64748b'; label = action;
-                    detail = handle ? '@' + handle : msg.substring(0, 60);
                 }
 
-                html += '<div class="activity-row">' +
+                var detail = handle || (msg.length > 50 ? msg.substring(0, 50) + '...' : msg);
+                var animClass = i === 0 ? ' activity-row-new' : '';
+
+                html += '<div class="activity-row' + animClass + '">' +
                     '<span class="activity-dot" style="background:' + color + '"></span>' +
                     '<span class="activity-action">' + label + '</span>' +
                     '<span class="activity-handle">' + detail + '</span>' +
@@ -1039,7 +1062,8 @@
 
         // Initial load
         fetchStats();
-        // Auto-refresh every 30s
+        startLiveFeed();
+        // Auto-refresh stats every 30s
         setInterval(fetchStats, 30000);
     })();
     </script>

@@ -3137,3 +3137,19 @@ body {
         display: none;
     }
 }
+
+/* ========== LIVE FEED ANIMATIONS ========== */
+.activity-row-new {
+    animation: feedSlideIn 0.4s ease-out;
+}
+
+@keyframes feedSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scaleY(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+    }
+}
