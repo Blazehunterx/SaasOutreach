@@ -3,23 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FounderFlow AI Client Acquisition System</title>
-    <meta name="description" content="FounderFlow is an AI client acquisition system for Instagram. Automate lead discovery, DM outreach, AI replies, and call booking. Get inbound client calls on autopilot.">
-    <meta name="keywords" content="instagram client acquisition, ai client acquisition, instagram lead generation, instagram outreach automation, ai sales system">
+    <title>FounderFlow — AI Client Acquisition System for Instagram</title>
+    <meta name="description" content="FounderFlow automates Instagram outreach: lead discovery, personalized DMs, AI replies, and call booking — all on autopilot. 50-75 DMs/day with human-like pacing.">
+    <meta name="keywords" content="instagram client acquisition, ai client acquisition, instagram lead generation, instagram outreach automation, ai sales system, instagram dm automation">
     <meta name="author" content="FounderFlow">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="FounderFlow , AI Client Acquisition System">
-    <meta property="og:description" content="FounderFlow is an AI client acquisition system for Instagram. Automated lead discovery, DM outreach, replies, and call booking , on autopilot.">
+    <meta property="og:title" content="FounderFlow — AI Client Acquisition System for Instagram">
+    <meta property="og:description" content="Automate Instagram outreach: lead discovery, personalized DMs, AI replies, and call booking. 50-75 DMs/day with human-like pacing.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://saasoutreach-demo.vercel.app">
-    <meta property="og:image" content="https://saasoutreach-demo.vercel.app/proof-1.jpeg">
+    <meta property="og:image" content="https://saasoutreach-demo.vercel.app/logo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="FounderFlow">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="FounderFlow , AI Client Acquisition System">
-    <meta name="twitter:description" content="AI client acquisition system for Instagram. Automated lead discovery, DMs, replies, and call booking , on autopilot.">
+    <meta name="twitter:title" content="FounderFlow — AI Client Acquisition System for Instagram">
+    <meta name="twitter:description" content="Automate Instagram outreach: lead discovery, personalized DMs, AI replies, and call booking. 50-75 DMs/day with human-like pacing.">
+    <meta name="twitter:image" content="https://saasoutreach-demo.vercel.app/logo.png">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://saasoutreach-demo.vercel.app">
@@ -89,6 +93,13 @@
     <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
 </head>
 <body>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-logo">
+            <img src="logo.png" alt="FounderFlow" class="loading-logo-img">
+        </div>
+    </div>
 
     <!-- Page transition overlay -->
     <div class="page-transition"></div>
@@ -320,23 +331,47 @@
         </div>
     </section>
 
-    <!-- STATS -->
-    <div class="stats-bar">
-        <div class="stat">
-            <div class="stat-num">17,600+</div>
-            <div class="stat-label">Leads Discovered</div>
+    <!-- LIVE STATS (Animated Bars) -->
+    <div class="stat-bars" id="live-stats-bar">
+        <div class="stat-bar">
+            <div class="stat-bar-head">
+                <span class="stat-bar-icon"><i class="fas fa-paper-plane"></i></span>
+                <span class="stat-bar-label">DMs Sent</span>
+                <span class="stat-bar-num" id="stat-dms">—</span>
+            </div>
+            <div class="stat-bar-track">
+                <div class="stat-bar-fill" data-width="80" style="background: linear-gradient(90deg, #8b5cf6, #7c3aed);"></div>
+            </div>
         </div>
-        <div class="stat">
-            <div class="stat-num">5,000+</div>
-            <div class="stat-label">DMs Sent</div>
+        <div class="stat-bar">
+            <div class="stat-bar-head">
+                <span class="stat-bar-icon"><i class="fas fa-users"></i></span>
+                <span class="stat-bar-label">Leads Discovered</span>
+                <span class="stat-bar-num" id="stat-leads">—</span>
+            </div>
+            <div class="stat-bar-track">
+                <div class="stat-bar-fill" data-width="100" style="background: linear-gradient(90deg, #06d6a0, #059669);"></div>
+            </div>
         </div>
-        <div class="stat">
-            <div class="stat-num">16%</div>
-            <div class="stat-label">Avg Reply Rate</div>
+        <div class="stat-bar">
+            <div class="stat-bar-head">
+                <span class="stat-bar-icon"><i class="fas fa-reply"></i></span>
+                <span class="stat-bar-label">Reply Rate</span>
+                <span class="stat-bar-num" id="stat-reply">—</span>
+            </div>
+            <div class="stat-bar-track">
+                <div class="stat-bar-fill" data-width="30" style="background: linear-gradient(90deg, #f472b6, #ec4899);"></div>
+            </div>
         </div>
-        <div class="stat">
-            <div class="stat-num">24/7</div>
-            <div class="stat-label">AI Auto-Reply</div>
+        <div class="stat-bar">
+            <div class="stat-bar-head">
+                <span class="stat-bar-icon"><i class="fas fa-wifi"></i></span>
+                <span class="stat-bar-label">Engines Running</span>
+                <span class="stat-bar-num" id="stat-engines">—</span>
+            </div>
+            <div class="stat-bar-track">
+                <div class="stat-bar-fill" data-width="15" style="background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
+            </div>
         </div>
     </div>
 
@@ -362,6 +397,99 @@
                     <div class="feature-icon"><i class="fas fa-brain"></i></div>
                     <h3>AI Setter</h3>
                     <p>When leads reply, an AI assistant handles the conversation naturally. It answers questions, handles objections, detects buying intent, and sends your Calendly link when they're ready.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE ACTIVITY FEED -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2>Live <span class="gradient-text">Engine Activity</span></h2>
+                <p>Real-time DMs being sent and replies received — right now.</p>
+            </div>
+            <div class="activity-feed-wrapper fade-in-up">
+                <div class="activity-feed-header">
+                    <span class="activity-pulse-dot"></span>
+                    <span>Live — auto-updating</span>
+                </div>
+                <div class="activity-feed" id="activity-feed">
+                    <div class="activity-loading">Connecting to engine...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BEFORE / AFTER -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2>The <span class="gradient-text">Difference</span></h2>
+                <p>Manual outreach vs. FounderFlow — side by side.</p>
+            </div>
+            <div class="ba-grid fade-in-up">
+                <div class="ba-card ba-before">
+                    <div class="ba-badge ba-badge-before">Before</div>
+                    <h3>Manual Outreach</h3>
+                    <ul class="ba-list">
+                        <li><i class="fas fa-times"></i> 2-3 hours/day sending DMs</li>
+                        <li><i class="fas fa-times"></i> Spreadsheet tracking</li>
+                        <li><i class="fas fa-times"></i> Follow-ups forgotten</li>
+                        <li><i class="fas fa-times"></i> 20-30 DMs/day max</li>
+                        <li><i class="fas fa-times"></i> Replies sit for hours</li>
+                        <li><i class="fas fa-times"></i> No idea what's working</li>
+                    </ul>
+                </div>
+                <div class="ba-card ba-after">
+                    <div class="ba-badge ba-badge-after">After</div>
+                    <h3>With FounderFlow</h3>
+                    <ul class="ba-list">
+                        <li><i class="fas fa-check"></i> 15 min/day checking pipeline</li>
+                        <li><i class="fas fa-check"></i> Built-in CRM pipeline</li>
+                        <li><i class="fas fa-check"></i> Auto follow-ups (3-step)</li>
+                        <li><i class="fas fa-check"></i> 50-75 DMs/day, safely</li>
+                        <li><i class="fas fa-check"></i> AI replies in seconds</li>
+                        <li><i class="fas fa-check"></i> Full analytics dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CASE STUDY: JANI -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <h2>Real <span class="gradient-text">Results</span></h2>
+                <p>Running since March 2026 — 5 months of continuous outreach on a single account.</p>
+            </div>
+            <div class="case-study-grid fade-in-up">
+                <div class="case-study-stats">
+                    <div class="cs-stat">
+                        <div class="cs-stat-num" id="cs-jani-dms">—</div>
+                        <div class="cs-stat-label">DMs Sent</div>
+                    </div>
+                    <div class="cs-stat">
+                        <div class="cs-stat-num" id="cs-jani-leads">—</div>
+                        <div class="cs-stat-label">Leads Found</div>
+                    </div>
+                    <div class="cs-stat">
+                        <div class="cs-stat-num" id="cs-jani-sent">—</div>
+                        <div class="cs-stat-label">Messages Delivered</div>
+                    </div>
+                </div>
+                <div class="case-study-quote">
+                    <blockquote>
+                        I have been using FounderFlow for my coaching business, and it has performed exactly as expected. The system finds the right people, sends personalized messages, and handles replies without me lifting a finger. What has impressed me the most is how natural the AI conversations sound , my leads genuinely think they are talking to me. I can confidently say this has transformed how I attract new clients.
+                    </blockquote>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JH</div>
+                        <div class="testimonial-author-info">
+                            <h4>Jani Havunen</h4>
+                            <p>Author &amp; Coach — Running since March 2026</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -510,18 +638,6 @@
                 <p>Real feedback from founders running FounderFlow every day.</p>
             </div>
             <div class="testimonials-quote-grid">
-                <div class="testimonial-quote glass-glow fade-in-up">
-                    <blockquote>
-                        I have been using FounderFlow for my coaching business, and it has performed exactly as expected. The system finds the right people, sends personalized messages, and handles replies without me lifting a finger. What has impressed me the most is how natural the AI conversations sound , my leads genuinely think they are talking to me. I can confidently say this has transformed how I attract new clients.
-                    </blockquote>
-                    <div class="testimonial-author">
-                        <img src="jani-havunen.jpg" alt="Jani Havunen" class="testimonial-avatar testimonial-avatar-img">
-                        <div class="testimonial-author-info">
-                            <h4>Jani Havunen</h4>
-                            <p>Author &amp; Coach , FounderFlow Client</p>
-                        </div>
-                    </div>
-                </div>
                 <div class="testimonial-quote glass-glow fade-in-up">
                     <blockquote>
                         I was spending hours every day sending DMs with almost no replies. A friend told me about FounderFlow and I was skeptical at first , I had tried automation tools before and they always got my account flagged. The warmup mode and human-like pacing won me over. My pipeline fills up automatically now and I just show up to the calls that matter.
@@ -810,34 +926,105 @@
 
     <script src="app.js"></script>
     <script>
-    // Fetch live stats from dashboard API (fallback to hardcoded values)
     (function() {
-        var CACHE_KEY = 'ff_stats_v2';
-        var cached = sessionStorage.getItem(CACHE_KEY);
-        if (cached) {
-            try { applyStats(JSON.parse(cached)); } catch(e) {}
-            return;
+        var API_URL = 'https://founderflow-dashboard.vercel.app/api/public-stats';
+
+        function fetchStats() {
+            fetch(API_URL)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    applyHeroStats(data);
+                    applyActivityFeed(data.recent_activity || []);
+                    applyCaseStudy(data);
+                })
+                .catch(function() {});
         }
-        // Clear old cache
-        sessionStorage.removeItem('ff_stats');
-        fetch('https://founderflow-dashboard.vercel.app/api/public-stats')
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
-                applyStats(data);
-            })
-            .catch(function() {});
-        function applyStats(d) {
-            var nums = document.querySelectorAll('.stats-bar .stat-num');
-            if (nums.length >= 4) {
-                var leads = Math.max(d.leads_discovered || 0, 17600);
-                var dms = Math.max(d.dms_sent || 0, 5000);
-                var rate = Math.min(Math.max(d.reply_rate || 0, 16), 25);
-                nums[0].textContent = leads.toLocaleString() + '+';
-                nums[1].textContent = dms.toLocaleString() + '+';
-                nums[2].textContent = rate + '%';
+
+        function applyHeroStats(d) {
+            var leads = document.getElementById('stat-leads');
+            var dms = document.getElementById('stat-dms');
+            var reply = document.getElementById('stat-reply');
+            var engines = document.getElementById('stat-engines');
+            if (leads) animateNum(leads, d.leads_discovered || 0, '+');
+            if (dms) animateNum(dms, d.dms_sent || 0, '+');
+            if (reply) {
+                var rate = d.reply_rate || 0;
+                reply.textContent = rate + '%';
+            }
+            if (engines) {
+                var count = d.engines_running || 0;
+                engines.textContent = count > 0 ? count + ' Active' : '0';
+            }
+
+            // Update bar fill widths based on real data
+            var fills = document.querySelectorAll('.stat-bar-fill');
+            if (fills.length >= 4) {
+                var pDMs = Math.min(100, Math.round((d.dms_sent || 0) / Math.max(d.dms_sent || 1, 1) * 100));
+                var pLeads = 100;
+                var pReply = Math.min(100, Math.round((d.reply_rate || 0) * 4));
+                var pEngines = Math.min(100, (d.engines_running || 0) * 25);
+                var targets = [pDMs, pLeads, pReply, pEngines];
+                fills.forEach(function(fill, i) {
+                    var w = targets[i] + '%';
+                    if (typeof gsap !== 'undefined') {
+                        gsap.to(fill, { width: w, duration: 1.2, ease: 'power2.out' });
+                    } else {
+                        fill.style.width = w;
+                    }
+                });
             }
         }
+
+        function animateNum(el, target, suffix) {
+            var current = parseInt(el.textContent.replace(/[^0-9]/g, '')) || 0;
+            if (current === target) { el.textContent = target.toLocaleString() + (suffix || ''); return; }
+            var diff = target - current;
+            var steps = 30;
+            var step = diff / steps;
+            var i = 0;
+            var interval = setInterval(function() {
+                i++;
+                current += step;
+                if (i >= steps) { current = target; clearInterval(interval); }
+                el.textContent = Math.round(current).toLocaleString() + (suffix || '');
+            }, 16);
+        }
+
+        function applyActivityFeed(items) {
+            var feed = document.getElementById('activity-feed');
+            if (!feed) return;
+            if (items.length === 0) {
+                feed.innerHTML = '<div class="activity-empty">No recent activity</div>';
+                return;
+            }
+            var html = '';
+            items.forEach(function(item) {
+                var icon = item.action === 'reply_received' ? 'fa-reply' : 'fa-paper-plane';
+                var color = item.action === 'reply_received' ? '#06d6a0' : '#8b5cf6';
+                var label = item.action === 'reply_received' ? 'Reply received' : 'DM sent';
+                html += '<div class="activity-row">' +
+                    '<span class="activity-dot" style="background:' + color + '"></span>' +
+                    '<span class="activity-action">' + label + '</span>' +
+                    '<span class="activity-handle">@' + item.handle + '</span>' +
+                    '<span class="activity-time">' + item.time + '</span>' +
+                    '</div>';
+            });
+            feed.innerHTML = html;
+        }
+
+        function applyCaseStudy(d) {
+            var dms = document.getElementById('cs-jani-dms');
+            var leads = document.getElementById('cs-jani-leads');
+            var sent = document.getElementById('cs-jani-sent');
+            if (dms) animateNum(dms, d.dms_sent || 0, '+');
+            if (leads) animateNum(leads, d.leads_discovered || 0, '+');
+            if (sent) animateNum(sent, d.dms_sent || 0, '+');
+        }
+
+        // Initial load
+        fetchStats();
+        // Auto-refresh every 30s
+        setInterval(fetchStats, 30000);
     })();
     </script>
 </body>

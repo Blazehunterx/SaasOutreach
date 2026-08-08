@@ -66,7 +66,7 @@ document.querySelectorAll('a, button, .feature-card, .testimonial-card, .faq-ite
     el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
 });
 
-// --- Three.js Particle Background ---
+// --- Three.js Particle Background (Enhanced) ---
 const canvas = document.getElementById('particle-canvas');
 if (canvas && hasThree) {
     const scene = new THREE.Scene();
@@ -75,30 +75,34 @@ if (canvas && hasThree) {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Create particles
-    const particleCount = 800;
+    const particleCount = 1500;
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
     const sizes = new Float32Array(particleCount);
+    const velocities = new Float32Array(particleCount * 3);
 
     const colorPalette = [
-        new THREE.Color(0x8b5cf6), // purple
-        new THREE.Color(0x06d6a0), // teal
-        new THREE.Color(0xf472b6), // pink
-        new THREE.Color(0x38bdf8), // blue
+        new THREE.Color(0x8b5cf6),
+        new THREE.Color(0x06d6a0),
+        new THREE.Color(0xf472b6),
+        new THREE.Color(0x38bdf8),
     ];
 
     for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 20;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 20;
+        const i3 = i * 3;
+        positions[i3] = (Math.random() - 0.5) * 24;
+        positions[i3 + 1] = (Math.random() - 0.5) * 24;
+        positions[i3 + 2] = (Math.random() - 0.5) * 12;
+        velocities[i3] = (Math.random() - 0.5) * 0.002;
+        velocities[i3 + 1] = (Math.random() - 0.5) * 0.002;
+        velocities[i3 + 2] = (Math.random() - 0.5) * 0.001;
 
         const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-        colors[i * 3] = color.r;
-        colors[i * 3 + 1] = color.g;
-        colors[i * 3 + 2] = color.b;
+        colors[i3] = color.r;
+        colors[i3 + 1] = color.g;
+        colors[i3 + 2] = color.b;
 
-        sizes[i] = Math.random() * 3 + 1;
+        sizes[i] = Math.random() * 4 + 1;
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -107,10 +111,10 @@ if (canvas && hasThree) {
     geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
     const material = new THREE.PointsMaterial({
-        size: 0.05,
+        size: 0.06,
         vertexColors: true,
         transparent: true,
-        opacity: 0.6,
+        opacity: 0.7,
         blending: THREE.AdditiveBlending,
         sizeAttenuation: true,
     });
@@ -118,48 +122,167 @@ if (canvas && hasThree) {
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
+    // Constellation lines
+    const lineGeometry = new THREE.BufferGeometry();
+    const linePositions = new Float32Array(600 * 6);
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+    const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x8b5cf6,
+        transparent: true,
+        opacity: 0.08,
+        blending: THREE.AdditiveBlending,
+    });
+    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+    scene.add(lines);
+
     camera.position.z = 5;
 
-    // Mouse interaction
-    let targetMouseX = 0, targetMouseY = 0;
+    let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
     document.addEventListener('mousemove', (e) => {
-        targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
     });
 
-    // Animation loop
     function animateParticles() {
         requestAnimationFrame(animateParticles);
+        const time = Date.now() * 0.0003;
 
-        const time = Date.now() * 0.0005;
+        targetMouseX += (mouseX - targetMouseX) * 0.05;
+        targetMouseY += (mouseY - targetMouseY) * 0.05;
 
-        // Gentle rotation
-        particles.rotation.x = time * 0.1;
-        particles.rotation.y = time * 0.15;
+        particles.rotation.x = time * 0.08 + targetMouseY * 0.15;
+        particles.rotation.y = time * 0.12 + targetMouseX * 0.15;
 
-        // Mouse influence
-        particles.rotation.x += (targetMouseY * 0.3 - particles.rotation.x) * 0.02;
-        particles.rotation.y += (targetMouseX * 0.3 - particles.rotation.y) * 0.02;
-
-        // Animate individual particles
         const posArray = geometry.attributes.position.array;
+        const linePosArray = lineGeometry.attributes.position.array;
+        let lineIndex = 0;
+
         for (let i = 0; i < particleCount; i++) {
             const i3 = i * 3;
-            posArray[i3 + 1] += Math.sin(time + i * 0.1) * 0.001;
+
+            posArray[i3] += velocities[i3];
+            posArray[i3 + 1] += velocities[i3 + 1] + Math.sin(time + i * 0.3) * 0.0003;
+            posArray[i3 + 2] += velocities[i3 + 2];
+
+            // Drift back to center
+            posArray[i3] += (0 - posArray[i3]) * 0.0001;
+            posArray[i3 + 1] += (0 - posArray[i3 + 1]) * 0.0001;
+
+            // Mouse repulsion
+            const dx = posArray[i3] - targetMouseX * 6;
+            const dy = posArray[i3 + 1] - targetMouseY * 4;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 2.5) {
+                const force = (2.5 - dist) * 0.008;
+                posArray[i3] += dx * force;
+                posArray[i3 + 1] += dy * force;
+            }
         }
+
+        // Constellation lines — connect nearby particles
+        for (let i = 0; i < particleCount && lineIndex < 600; i += 3) {
+            for (let j = i + 3; j < particleCount && lineIndex < 600; j += 3) {
+                const dx = posArray[i * 3] - posArray[j * 3];
+                const dy = posArray[i * 3 + 1] - posArray[j * 3 + 1];
+                const dz = posArray[i * 3 + 2] - posArray[j * 3 + 2];
+                const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                if (dist < 1.8) {
+                    linePosArray[lineIndex * 6] = posArray[i * 3];
+                    linePosArray[lineIndex * 6 + 1] = posArray[i * 3 + 1];
+                    linePosArray[lineIndex * 6 + 2] = posArray[i * 3 + 2];
+                    linePosArray[lineIndex * 6 + 3] = posArray[j * 3];
+                    linePosArray[lineIndex * 6 + 4] = posArray[j * 3 + 1];
+                    linePosArray[lineIndex * 6 + 5] = posArray[j * 3 + 2];
+                    lineIndex++;
+                }
+            }
+        }
+        for (let i = lineIndex * 6; i < 600 * 6; i++) linePosArray[i] = 0;
+        lineGeometry.attributes.position.needsUpdate = true;
         geometry.attributes.position.needsUpdate = true;
 
         renderer.render(scene, camera);
     }
     animateParticles();
 
-    // Resize handler
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 }
+
+// --- TextScramble (Scroll-linked) ---
+class TextScramble {
+    constructor(el) {
+        this.el = el;
+        this.originalHTML = el.innerHTML;
+        this.chars = '!<>-_\\/[]{}—=+*^?#_abcdef0123456789';
+        this.spans = [];
+        this.finalChars = [];
+        this.build();
+    }
+    build() {
+        const text = this.el.textContent;
+        this.el.innerHTML = '';
+        this.el.style.display = 'inline';
+        for (let i = 0; i < text.length; i++) {
+            const span = document.createElement('span');
+            span.textContent = text[i] === ' ' ? '\u00A0' : this.chars[Math.floor(Math.random() * this.chars.length)];
+            span.style.display = 'inline-block';
+            span.style.minWidth = text[i] === ' ' ? '0.3em' : 'auto';
+            if (text[i] === ' ') span.style.width = '0.3em';
+            this.el.appendChild(span);
+            this.spans.push(span);
+            this.finalChars.push(text[i]);
+        }
+    }
+    scramble(progress) {
+        const total = this.spans.length;
+        const revealed = Math.floor(progress * total);
+        for (let i = 0; i < total; i++) {
+            if (i < revealed) {
+                this.spans[i].textContent = this.finalChars[i] === ' ' ? '\u00A0' : this.finalChars[i];
+                this.spans[i].style.color = '';
+            } else if (i < revealed + 3) {
+                this.spans[i].textContent = this.chars[Math.floor(Math.random() * this.chars.length)];
+                this.spans[i].style.color = 'var(--primary-light)';
+            } else {
+                this.spans[i].textContent = this.chars[Math.floor(Math.random() * this.chars.length)];
+                this.spans[i].style.color = 'var(--text-muted)';
+            }
+        }
+    }
+    reset() {
+        this.spans.forEach((span, i) => {
+            span.textContent = this.chars[Math.floor(Math.random() * this.chars.length)];
+            span.style.color = 'var(--text-muted)';
+        });
+    }
+}
+
+// --- Cursor Trail ---
+const trailParticles = [];
+const MAX_TRAIL = 8;
+function spawnTrailDot(x, y) {
+    if (trailParticles.length >= MAX_TRAIL) return;
+    const dot = document.createElement('div');
+    dot.className = 'cursor-trail-dot';
+    dot.style.left = x + 'px';
+    dot.style.top = y + 'px';
+    document.body.appendChild(dot);
+    trailParticles.push(dot);
+    setTimeout(() => { dot.style.opacity = '0'; dot.style.transform = 'scale(0)'; }, 50);
+    setTimeout(() => { dot.remove(); trailParticles.shift(); }, 650);
+}
+let lastTrailTime = 0;
+document.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastTrailTime > 40) {
+        spawnTrailDot(e.clientX, e.clientY);
+        lastTrailTime = now;
+    }
+});
 
 // --- GSAP Scroll Animations (guarded) ---
 if (hasGsap) {
@@ -576,22 +699,61 @@ if (gridPattern) {
     });
 }
 
-// Stats bar drifts slightly for layered feel
-const statsBar = document.querySelector('.stats-bar');
-if (statsBar) {
-    gsap.fromTo(statsBar, { y: 40 }, {
-        scrollTrigger: {
-            trigger: statsBar,
-            start: 'top bottom',
-            end: 'top 40%',
-            scrub: 1,
-        },
-        y: 0,
-        ease: 'none',
-    });
-}
-
 } // end hasGsap guard
+
+// --- TextScramble Scroll Animation ---
+(function() {
+    const headline = document.querySelector('.hero h1 .gradient-text');
+    if (!headline || !hasGsap) return;
+    const scrambler = new TextScramble(headline);
+    // Start fully revealed — scramble as hero scrolls OUT of view
+    scrambler.scramble(1);
+    ScrollTrigger.create({
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1,
+        onUpdate: (self) => {
+            // Invert: 0 = fully visible, 1 = fully scrambled as hero leaves viewport
+            scrambler.scramble(1 - self.progress);
+        },
+    });
+})();
+
+// --- Stat Bar Fill Animation ---
+(function() {
+    const fills = document.querySelectorAll('.stat-bar-fill');
+    if (!fills.length || !hasGsap) return;
+    fills.forEach((fill) => {
+        const target = fill.getAttribute('data-width') || 0;
+        gsap.fromTo(fill, { width: '0%' }, {
+            width: target + '%',
+            duration: 1.5,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: fill.closest('.stat-bar'),
+                start: 'top 85%',
+                toggleActions: 'play none none none',
+            },
+        });
+    });
+})();
+
+// --- Loading Intro ---
+(function() {
+    const overlay = document.getElementById('loading-overlay');
+    if (!overlay) return;
+    if (sessionStorage.getItem('ff_loaded')) {
+        overlay.style.display = 'none';
+        return;
+    }
+    overlay.classList.add('active');
+    setTimeout(() => {
+        overlay.classList.add('exit');
+        sessionStorage.setItem('ff_loaded', '1');
+        setTimeout(() => { overlay.style.display = 'none'; }, 800);
+    }, 1400);
+})();
 
 // --- Page Transitions ---
 const pageTransition = document.querySelector('.page-transition');
