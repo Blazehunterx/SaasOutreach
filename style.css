@@ -453,6 +453,39 @@ nav {
     justify-content: center;
 }
 
+.hero-pill-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+}
+
+.hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+    transition: var(--transition);
+}
+
+.hero-pill:hover {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: rgba(139, 92, 246, 0.3);
+    color: var(--primary-light);
+}
+
+.hero-pill i {
+    font-size: 12px;
+    color: var(--primary-light);
+}
+
 /* Hero visual decoration */
 .hero-decoration {
     position: absolute;
